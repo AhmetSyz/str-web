@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}OTOPARÇA — Araç Yedek Parça{% endblock %}
+
+{% block content %}
+
+    <section class="bg-gray-900">
+        <div class="mx-auto max-w-6xl px-4 py-24 text-center sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+                Aracınız İçin Doğru Parça, <span class="text-red-500">Doğru Fiyat</span>
+            </h1>
+            <p class="mx-auto mt-6 max-w-2xl text-lg text-gray-300">
+                Binlerce marka ve modele uygun orijinal ve muadil yedek parçaları
+                tek noktadan tedarik ediyoruz.
+            </p>
+            <div class="mt-10 flex justify-center gap-4">
+                <a href="#one-cikanlar"
+                   class="rounded-md bg-red-600 px-6 py-3 text-sm font-semibold text-white hover:bg-red-700">
+                    Ürünleri İncele
+                </a>
+                <a href="{% url 'catalog:iletisim' %}"
+                   class="rounded-md border border-gray-600 px-6 py-3 text-sm font-semibold text-white hover:bg-gray-800">
+                    Bize Ulaşın
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="one-cikanlar" class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between">
+            <h2 class="text-2xl font-bold text-gray-900">Öne Çıkan Parçalar</h2>
+            <a href="#" class="text-sm font-medium text-red-600 hover:text-red-700">Tümünü Gör &rarr;</a>
+        </div>
+
+        <div class="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+            {# Ürün kartları veritabanı modelleri hazır olduğunda buraya eklenecek. #}
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Oto Yedek Parça{% endblock %}</title>
+    {% tailwind_css %}
+</head>
+<body class="flex min-h-screen flex-col bg-gray-50 text-gray-900">
+
+    <header class="border-b border-gray-200 bg-white">
+        <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+            <a href="{% url 'catalog:index' %}" class="text-xl font-bold tracking-tight text-gray-900">
+                OTO<span class="text-red-600">PARÇA</span>
+            </a>
+
+            <ul class="hidden items-center gap-8 text-sm font-medium text-gray-700 sm:flex">
+                <li><a href="{% url 'catalog:index' %}" class="hover:text-red-600">Anasayfa</a></li>
+                <li><a href="#" class="hover:text-red-600">Ürünler</a></li>
+                <li><a href="{% url 'catalog:iletisim' %}" class="hover:text-red-600">İletişim</a></li>
+            </ul>
+
+            <a href="{% url 'catalog:iletisim' %}"
+               class="hidden rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 sm:inline-block">
+                Teklif Al
+            </a>
+        </nav>
+    </header>
+
+    <main class="flex-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="border-t border-gray-200 bg-white">
+        <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+            <div class="grid gap-8 sm:grid-cols-3">
+                <div>
+                    <p class="text-lg font-bold tracking-tight text-gray-900">
+                        OTO<span class="text-red-600">PARÇA</span>
+                    </p>
+                    <p class="mt-2 text-sm text-gray-500">
+                        Güvenilir marka ve OEM araç yedek parçaları.
+                    </p>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-gray-900">Bağlantılar</p>
+                    <ul class="mt-3 space-y-2 text-sm text-gray-500">
+                        <li><a href="{% url 'catalog:index' %}" class="hover:text-red-600">Anasayfa</a></li>
+                        <li><a href="#" class="hover:text-red-600">Ürünler</a></li>
+                        <li><a href="{% url 'catalog:iletisim' %}" class="hover:text-red-600">İletişim</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <p class="text-sm font-semibold text-gray-900">İletişim</p>
+                    <ul class="mt-3 space-y-2 text-sm text-gray-500">
+                        <li>info@ornek.com</li>
+                        <li>+90 (5xx) xxx xx xx</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="mt-8 border-t border-gray-100 pt-6 text-xs text-gray-400">
+                &copy; {% now "Y" %} OTOPARÇA. Tüm hakları saklıdır.
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
