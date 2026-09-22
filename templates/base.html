@@ -1,11 +1,11 @@
-{% load static %}
+{% load static i18n i18n_extras %}
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}MARKA{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}MARKA — kaliteli ürünler ve güvenilir hizmet.{% endblock %}">
+    <meta name="description" content="{% block meta_description %}{% blocktrans %}MARKA — kaliteli ürünler ve güvenilir hizmet.{% endblocktrans %}{% endblock %}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -131,25 +131,54 @@
             <ul class="hidden items-center gap-8 lg:flex">
                 <li class="group relative">
                     <button type="button" class="flex items-center gap-1 text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">
-                        Ürünler
+                        {% trans "Ürünler" %}
                         <svg class="h-4 w-4 transition-transform duration-300 group-hover:rotate-180 group-hover:text-bronze-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
                     <div class="invisible absolute left-1/2 top-full mt-3 w-64 -translate-x-1/2 rounded-lg border border-white/10 bg-anthracite-900/95 p-2 opacity-0 shadow-2xl backdrop-blur-glass transition-all duration-200 group-hover:visible group-hover:opacity-100">
-                        <a href="#" class="block rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">Kategori 1</a>
-                        <a href="#" class="block rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">Kategori 2</a>
-                        <a href="#" class="block rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">Kategori 3</a>
+                        <a href="#" class="block rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Kategori 1" %}</a>
+                        <a href="#" class="block rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Kategori 2" %}</a>
+                        <a href="#" class="block rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Kategori 3" %}</a>
                     </div>
                 </li>
-                <li><a href="#" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Projeler</a></li>
-                <li><a href="#" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Kurumsal</a></li>
-                <li><a href="{% url 'iletisim' %}" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">İletişim</a></li>
+                <li><a href="#" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Projeler" %}</a></li>
+                <li><a href="#" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Kurumsal" %}</a></li>
+                <li><a href="{% url 'iletisim' %}" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "İletişim" %}</a></li>
+
+                <li class="group relative">
+                    <button type="button" class="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:border-bronze-500 hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                        <span aria-hidden="true">{{ LANGUAGE_CODE|flag_for }}</span>
+                        {{ LANGUAGE_CODE|upper }}
+                        <svg class="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="invisible absolute right-0 top-full mt-3 w-48 rounded-lg border border-white/10 bg-anthracite-900/95 p-2 opacity-0 shadow-2xl backdrop-blur-glass transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                        {% get_available_languages as AVAILABLE_LANGUAGES %}
+                        {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+                        {% with current_view=request.resolver_match.url_name %}
+                        {% for lang in languages %}
+                        {% language lang.code %}{% url current_view as lang_next_url %}{% endlanguage %}
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="language" value="{{ lang.code }}">
+                            <input type="hidden" name="next" value="{{ lang_next_url }}">
+                            <button type="submit"
+                                    class="flex w-full items-center gap-2.5 rounded px-3 py-2 text-body-sm outline-none transition-colors hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-bronze-500 {% if lang.code == LANGUAGE_CODE %}text-white{% else %}text-aluminium-300{% endif %}">
+                                <span aria-hidden="true">{{ lang.code|flag_for }}</span>
+                                {{ lang.name_local }}
+                            </button>
+                        </form>
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+                </li>
             </ul>
 
             <div class="hidden lg:flex">
                 <a href="{% url 'iletisim' %}" class="inline-flex items-center gap-2 rounded bg-bronze-500 px-5 py-2.5 text-button font-medium text-white shadow-lg shadow-bronze-500/20 outline-none transition-all duration-300 hover:bg-bronze-600 hover:shadow-bronze-500/35 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-bronze-500">
-                    Teklif Al
+                    {% trans "Teklif Al" %}
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
@@ -162,7 +191,7 @@
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
-                <span class="sr-only">Menüyü aç</span>
+                <span class="sr-only">{% trans "Menüyü aç" %}</span>
             </label>
 
             <div class="fixed inset-0 z-[60] hidden peer-checked:block lg:hidden">
@@ -174,18 +203,38 @@
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
-                            <span class="sr-only">Menüyü kapat</span>
+                            <span class="sr-only">{% trans "Menüyü kapat" %}</span>
                         </label>
                     </div>
                     <div class="flex-1 overflow-y-auto px-6 py-4">
-                        <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Ürünler</a>
-                        <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Projeler</a>
-                        <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Kurumsal</a>
-                        <a href="{% url 'iletisim' %}" class="block py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">İletişim</a>
+                        <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Ürünler" %}</a>
+                        <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Projeler" %}</a>
+                        <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Kurumsal" %}</a>
+                        <a href="{% url 'iletisim' %}" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "İletişim" %}</a>
+
+                        <div class="flex flex-wrap gap-2 py-4">
+                            {% get_available_languages as AVAILABLE_LANGUAGES %}
+                            {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+                            {% with current_view=request.resolver_match.url_name %}
+                            {% for lang in languages %}
+                            {% language lang.code %}{% url current_view as lang_next_url %}{% endlanguage %}
+                            <form action="{% url 'set_language' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="language" value="{{ lang.code }}">
+                                <input type="hidden" name="next" value="{{ lang_next_url }}">
+                                <button type="submit"
+                                        class="flex items-center gap-2 rounded-full border px-3 py-1.5 text-body-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-bronze-500 {% if lang.code == LANGUAGE_CODE %}border-bronze-500 text-white{% else %}border-white/10 text-aluminium-300 hover:border-white/30{% endif %}">
+                                    <span aria-hidden="true">{{ lang.code|flag_for }}</span>
+                                    {{ lang.code|upper }}
+                                </button>
+                            </form>
+                            {% endfor %}
+                            {% endwith %}
+                        </div>
                     </div>
                     <div class="border-t border-white/10 p-6">
                         <a href="{% url 'iletisim' %}" class="flex items-center justify-center gap-2 rounded bg-bronze-500 px-5 py-3 text-button font-medium text-white shadow-lg shadow-bronze-500/20 outline-none transition-colors hover:bg-bronze-600 focus-visible:ring-2 focus-visible:ring-bronze-500">
-                            Teklif Al
+                            {% trans "Teklif Al" %}
                         </a>
                     </div>
                 </div>
@@ -205,29 +254,29 @@
                 <div>
                     <span class="font-display text-h5 font-semibold text-white">MARKA<span class="text-bronze-500">.</span></span>
                     <p class="mt-3 max-w-xs text-body-sm text-aluminium-400">
-                        {% block footer_tagline %}Kaliteli ürünler ve güvenilir hizmet için doğru adres.{% endblock %}
+                        {% block footer_tagline %}{% blocktrans %}Kaliteli ürünler ve güvenilir hizmet için doğru adres.{% endblocktrans %}{% endblock %}
                     </p>
                 </div>
 
                 <div>
-                    <h3 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">Hızlı Bağlantılar</h3>
+                    <h3 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">{% trans "Hızlı Bağlantılar" %}</h3>
                     <ul class="mt-4 space-y-2">
-                        <li><a href="{% url 'index' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Anasayfa</a></li>
-                        <li><a href="#" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Ürünler</a></li>
-                        <li><a href="{% url 'iletisim' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">İletişim</a></li>
+                        <li><a href="{% url 'index' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Anasayfa" %}</a></li>
+                        <li><a href="#" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Ürünler" %}</a></li>
+                        <li><a href="{% url 'iletisim' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "İletişim" %}</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">Kurumsal</h3>
+                    <h3 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">{% trans "Kurumsal" %}</h3>
                     <ul class="mt-4 space-y-2">
-                        <li><a href="#" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Hakkımızda</a></li>
-                        <li><a href="#" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Projeler</a></li>
+                        <li><a href="#" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Hakkımızda" %}</a></li>
+                        <li><a href="#" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Projeler" %}</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">İletişim</h3>
+                    <h3 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">{% trans "İletişim" %}</h3>
                     <ul class="mt-4 space-y-3 text-body-sm text-aluminium-300">
                         <li>info@ornek.com</li>
                         <li>+90 (5xx) xxx xx xx</li>
@@ -237,7 +286,8 @@
             </div>
 
             <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-anthracite-800 pt-6 sm:flex-row">
-                <p class="text-caption text-aluminium-500">&copy; {% now "Y" %} MARKA. Tüm hakları saklıdır.</p>
+                {% now "Y" as current_year %}
+                <p class="text-caption text-aluminium-500">&copy; {{ current_year }} MARKA. {% trans "Tüm hakları saklıdır." %}</p>
             </div>
         </div>
     </footer>

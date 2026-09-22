@@ -1,0 +1,139 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Language: fr\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Ad Soyad"
+msgstr "Nom complet"
+
+msgid "Adres"
+msgstr "Adresse"
+
+msgid "Anasayfa"
+msgstr "Accueil"
+
+msgid "Bize Ulaşın"
+msgstr "Contactez-nous"
+
+msgid "Çalışma Saatleri"
+msgstr "Horaires d'ouverture"
+
+msgid "E-posta"
+msgstr "E-mail"
+
+msgid "Geniş ürün yelpazemiz ve uzman ekibimizle yanınızdayız."
+msgstr ""
+"Nous sommes à vos côtés avec notre large gamme de produits et notre équipe "
+"d'experts."
+
+msgid "Gönder"
+msgstr "Envoyer"
+
+msgid "Hakkımızda"
+msgstr "À propos"
+
+msgid "Hızlı Bağlantılar"
+msgstr "Liens Rapides"
+
+msgid "İletişim"
+msgstr "Contact"
+
+msgid "Kalite ve Güven"
+msgstr "Qualité et Confiance"
+
+msgid "Kategori 1"
+msgstr "Catégorie 1"
+
+msgid "Kategori 2"
+msgstr "Catégorie 2"
+
+msgid "Kategori 3"
+msgstr "Catégorie 3"
+
+msgid "Kısa ürün açıklaması"
+msgstr "Brève description du produit"
+
+msgid "Konu"
+msgstr "Sujet"
+
+msgid "Kurumsal"
+msgstr "Entreprise"
+
+msgid "Menüyü aç"
+msgstr "Ouvrir le menu"
+
+msgid "Menüyü kapat"
+msgstr "Fermer le menu"
+
+msgid "Mesajınız"
+msgstr "Votre Message"
+
+msgid "Öne Çıkan Ürünler"
+msgstr "Produits Phares"
+
+msgid "Pazartesi – Cumartesi, 09:00 – 18:00"
+msgstr "Lundi – Samedi, 09h00 – 18h00"
+
+msgid "Projeler"
+msgstr "Projets"
+
+msgid "Teklif Al"
+msgstr "Demander un Devis"
+
+msgid "Telefon"
+msgstr "Téléphone"
+
+msgid "Tüm hakları saklıdır."
+msgstr "Tous droits réservés."
+
+msgid "Tümünü Gör"
+msgstr "Voir Tout"
+
+msgid "Ürün Adı"
+msgstr "Nom du Produit"
+
+msgid "Ürünler"
+msgstr "Produits"
+
+msgid "Ürünleri İncele"
+msgstr "Découvrir les Produits"
+
+msgid "Konum haritası"
+msgstr "Carte de localisation"
+
+msgid "Ürün 1"
+msgstr "Produit 1"
+
+msgid "Ürün 2"
+msgstr "Produit 2"
+
+msgid "Ürün 3"
+msgstr "Produit 3"
+
+msgid "Ürün 4"
+msgstr "Produit 4"
+
+msgid ""
+"İhtiyacınız Olan Her Şey, <span class=\"text-bronze-500\">Tek Adreste</span>"
+msgstr ""
+"Tout ce dont vous avez besoin, <span class=\"text-bronze-500\">en un seul "
+"endroit</span>"
+
+msgid ""
+"Sorularınız, talepleriniz ve iş birliği önerileriniz için formu doldurun, en"
+" kısa sürede size dönüş yapalım."
+msgstr ""
+"Remplissez le formulaire pour vos questions, demandes et propositions de "
+"partenariat, nous vous répondrons dans les plus brefs délais."
+
+msgid "Örnek Mahallesi, Sanayi Caddesi No: 1<br>İstanbul, Türkiye"
+msgstr "Örnek Mahallesi, Sanayi Caddesi n° 1<br>Istanbul, Turquie"
+
+msgid "MARKA — kaliteli ürünler ve güvenilir hizmet."
+msgstr "MARKA — produits de qualité et service fiable."
+
+msgid "Kaliteli ürünler ve güvenilir hizmet için doğru adres."
+msgstr "La bonne adresse pour des produits de qualité et un service fiable."

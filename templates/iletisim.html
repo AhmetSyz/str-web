@@ -1,11 +1,13 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}İletişim | MARKA{% endblock %}
+{% block title %}{% trans "İletişim" %} | MARKA{% endblock %}
 
 {% block content %}
 
-    {% include "partials/page_header.html" with title="Bize Ulaşın" subtitle="Sorularınız, talepleriniz ve iş birliği önerileriniz için formu doldurun, en kısa sürede size dönüş yapalım." %}
+    {% trans "Bize Ulaşın" as page_title %}
+    {% blocktrans asvar page_subtitle %}Sorularınız, talepleriniz ve iş birliği önerileriniz için formu doldurun, en kısa sürede size dönüş yapalım.{% endblocktrans %}
+    {% include "partials/page_header.html" with title=page_title subtitle=page_subtitle %}
 
     <section class="mx-auto max-w-[1440px] px-6 py-16 lg:px-10 lg:py-24">
         <div class="grid gap-12 lg:grid-cols-2">
@@ -17,8 +19,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                     <div>
-                        <h2 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">Adres</h2>
-                        <p class="mt-2 text-body-sm text-aluminium-200">Örnek Mahallesi, Sanayi Caddesi No: 1<br>İstanbul, Türkiye</p>
+                        <h2 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">{% trans "Adres" %}</h2>
+                        <p class="mt-2 text-body-sm text-aluminium-200">{% blocktrans %}Örnek Mahallesi, Sanayi Caddesi No: 1<br>İstanbul, Türkiye{% endblocktrans %}</p>
                     </div>
                 </div>
 
@@ -27,7 +29,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                     <div>
-                        <h2 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">Telefon</h2>
+                        <h2 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">{% trans "Telefon" %}</h2>
                         <p class="mt-2 text-body-sm text-aluminium-200">+90 (5xx) xxx xx xx</p>
                     </div>
                 </div>
@@ -37,7 +39,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                     <div>
-                        <h2 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">E-posta</h2>
+                        <h2 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">{% trans "E-posta" %}</h2>
                         <p class="mt-2 text-body-sm text-aluminium-200">info@ornek.com</p>
                     </div>
                 </div>
@@ -47,13 +49,13 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <div>
-                        <h2 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">Çalışma Saatleri</h2>
-                        <p class="mt-2 text-body-sm text-aluminium-200">Pazartesi – Cumartesi, 09:00 – 18:00</p>
+                        <h2 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">{% trans "Çalışma Saatleri" %}</h2>
+                        <p class="mt-2 text-body-sm text-aluminium-200">{% trans "Pazartesi – Cumartesi, 09:00 – 18:00" %}</p>
                     </div>
                 </div>
 
                 <div class="overflow-hidden rounded-lg border border-anthracite-700">
-                    <img src="{% static 'images/map-placeholder.jpg' %}" alt="Konum haritası" class="h-56 w-full bg-anthracite-800 object-cover">
+                    <img src="{% static 'images/map-placeholder.jpg' %}" alt="{% trans 'Konum haritası' %}" class="h-56 w-full bg-anthracite-800 object-cover">
                 </div>
             </div>
 
@@ -61,32 +63,32 @@
                 {% csrf_token %}
 
                 <div>
-                    <label for="ad-soyad" class="block text-body-sm font-medium text-aluminium-200">Ad Soyad</label>
+                    <label for="ad-soyad" class="block text-body-sm font-medium text-aluminium-200">{% trans "Ad Soyad" %}</label>
                     <input type="text" id="ad-soyad" name="ad_soyad" required
                            class="mt-1 block w-full rounded-md border border-anthracite-700 bg-anthracite-950 px-3 py-2 text-body-sm text-white placeholder:text-aluminium-500 focus:border-bronze-500 focus:outline-none focus:ring-1 focus:ring-bronze-500">
                 </div>
 
                 <div>
-                    <label for="eposta" class="block text-body-sm font-medium text-aluminium-200">E-posta</label>
+                    <label for="eposta" class="block text-body-sm font-medium text-aluminium-200">{% trans "E-posta" %}</label>
                     <input type="email" id="eposta" name="eposta" required
                            class="mt-1 block w-full rounded-md border border-anthracite-700 bg-anthracite-950 px-3 py-2 text-body-sm text-white placeholder:text-aluminium-500 focus:border-bronze-500 focus:outline-none focus:ring-1 focus:ring-bronze-500">
                 </div>
 
                 <div>
-                    <label for="konu" class="block text-body-sm font-medium text-aluminium-200">Konu</label>
+                    <label for="konu" class="block text-body-sm font-medium text-aluminium-200">{% trans "Konu" %}</label>
                     <input type="text" id="konu" name="konu"
                            class="mt-1 block w-full rounded-md border border-anthracite-700 bg-anthracite-950 px-3 py-2 text-body-sm text-white placeholder:text-aluminium-500 focus:border-bronze-500 focus:outline-none focus:ring-1 focus:ring-bronze-500">
                 </div>
 
                 <div>
-                    <label for="mesaj" class="block text-body-sm font-medium text-aluminium-200">Mesajınız</label>
+                    <label for="mesaj" class="block text-body-sm font-medium text-aluminium-200">{% trans "Mesajınız" %}</label>
                     <textarea id="mesaj" name="mesaj" rows="4" required
                               class="mt-1 block w-full rounded-md border border-anthracite-700 bg-anthracite-950 px-3 py-2 text-body-sm text-white placeholder:text-aluminium-500 focus:border-bronze-500 focus:outline-none focus:ring-1 focus:ring-bronze-500"></textarea>
                 </div>
 
                 <button type="submit"
                         class="w-full rounded bg-bronze-500 px-4 py-3 text-button font-medium text-white outline-none transition-colors hover:bg-bronze-600 focus-visible:ring-2 focus-visible:ring-bronze-500">
-                    Gönder
+                    {% trans "Gönder" %}
                 </button>
             </form>
 

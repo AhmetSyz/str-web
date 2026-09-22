@@ -1,0 +1,135 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Language: en\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Ad Soyad"
+msgstr "Full Name"
+
+msgid "Adres"
+msgstr "Address"
+
+msgid "Anasayfa"
+msgstr "Home"
+
+msgid "Bize Ulaşın"
+msgstr "Contact Us"
+
+msgid "Çalışma Saatleri"
+msgstr "Working Hours"
+
+msgid "E-posta"
+msgstr "Email"
+
+msgid "Geniş ürün yelpazemiz ve uzman ekibimizle yanınızdayız."
+msgstr "We're here for you with our wide product range and expert team."
+
+msgid "Gönder"
+msgstr "Send"
+
+msgid "Hakkımızda"
+msgstr "About Us"
+
+msgid "Hızlı Bağlantılar"
+msgstr "Quick Links"
+
+msgid "İletişim"
+msgstr "Contact"
+
+msgid "Kalite ve Güven"
+msgstr "Quality and Trust"
+
+msgid "Kategori 1"
+msgstr "Category 1"
+
+msgid "Kategori 2"
+msgstr "Category 2"
+
+msgid "Kategori 3"
+msgstr "Category 3"
+
+msgid "Kısa ürün açıklaması"
+msgstr "Short product description"
+
+msgid "Konu"
+msgstr "Subject"
+
+msgid "Kurumsal"
+msgstr "Corporate"
+
+msgid "Menüyü aç"
+msgstr "Open menu"
+
+msgid "Menüyü kapat"
+msgstr "Close menu"
+
+msgid "Mesajınız"
+msgstr "Your Message"
+
+msgid "Öne Çıkan Ürünler"
+msgstr "Featured Products"
+
+msgid "Pazartesi – Cumartesi, 09:00 – 18:00"
+msgstr "Monday – Saturday, 09:00 – 18:00"
+
+msgid "Projeler"
+msgstr "Projects"
+
+msgid "Teklif Al"
+msgstr "Get a Quote"
+
+msgid "Telefon"
+msgstr "Phone"
+
+msgid "Tüm hakları saklıdır."
+msgstr "All rights reserved."
+
+msgid "Tümünü Gör"
+msgstr "View All"
+
+msgid "Ürün Adı"
+msgstr "Product Name"
+
+msgid "Ürünler"
+msgstr "Products"
+
+msgid "Ürünleri İncele"
+msgstr "Explore Products"
+
+msgid "Konum haritası"
+msgstr "Location map"
+
+msgid "Ürün 1"
+msgstr "Product 1"
+
+msgid "Ürün 2"
+msgstr "Product 2"
+
+msgid "Ürün 3"
+msgstr "Product 3"
+
+msgid "Ürün 4"
+msgstr "Product 4"
+
+msgid ""
+"İhtiyacınız Olan Her Şey, <span class=\"text-bronze-500\">Tek Adreste</span>"
+msgstr "Everything You Need, <span class=\"text-bronze-500\">In One Place</span>"
+
+msgid ""
+"Sorularınız, talepleriniz ve iş birliği önerileriniz için formu doldurun, en"
+" kısa sürede size dönüş yapalım."
+msgstr ""
+"Fill out the form for your questions, requests, and partnership proposals, "
+"and we'll get back to you as soon as possible."
+
+msgid "Örnek Mahallesi, Sanayi Caddesi No: 1<br>İstanbul, Türkiye"
+msgstr "Örnek Neighborhood, Sanayi Street No: 1<br>Istanbul, Turkey"
+
+msgid "MARKA — kaliteli ürünler ve güvenilir hizmet."
+msgstr "MARKA — quality products and reliable service."
+
+msgid "Kaliteli ürünler ve güvenilir hizmet için doğru adres."
+msgstr "The right address for quality products and reliable service."

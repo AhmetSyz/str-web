@@ -1,0 +1,135 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Language: ar\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Ad Soyad"
+msgstr "الاسم الكامل"
+
+msgid "Adres"
+msgstr "العنوان"
+
+msgid "Anasayfa"
+msgstr "الرئيسية"
+
+msgid "Bize Ulaşın"
+msgstr "تواصل معنا"
+
+msgid "Çalışma Saatleri"
+msgstr "ساعات العمل"
+
+msgid "E-posta"
+msgstr "البريد الإلكتروني"
+
+msgid "Geniş ürün yelpazemiz ve uzman ekibimizle yanınızdayız."
+msgstr "نحن إلى جانبكم بتشكيلة واسعة من المنتجات وفريق من الخبراء."
+
+msgid "Gönder"
+msgstr "إرسال"
+
+msgid "Hakkımızda"
+msgstr "من نحن"
+
+msgid "Hızlı Bağlantılar"
+msgstr "روابط سريعة"
+
+msgid "İletişim"
+msgstr "اتصل بنا"
+
+msgid "Kalite ve Güven"
+msgstr "الجودة والثقة"
+
+msgid "Kategori 1"
+msgstr "الفئة 1"
+
+msgid "Kategori 2"
+msgstr "الفئة 2"
+
+msgid "Kategori 3"
+msgstr "الفئة 3"
+
+msgid "Kısa ürün açıklaması"
+msgstr "وصف مختصر للمنتج"
+
+msgid "Konu"
+msgstr "الموضوع"
+
+msgid "Kurumsal"
+msgstr "الشركة"
+
+msgid "Menüyü aç"
+msgstr "فتح القائمة"
+
+msgid "Menüyü kapat"
+msgstr "إغلاق القائمة"
+
+msgid "Mesajınız"
+msgstr "رسالتك"
+
+msgid "Öne Çıkan Ürünler"
+msgstr "المنتجات المميزة"
+
+msgid "Pazartesi – Cumartesi, 09:00 – 18:00"
+msgstr "الإثنين – السبت، 09:00 – 18:00"
+
+msgid "Projeler"
+msgstr "المشاريع"
+
+msgid "Teklif Al"
+msgstr "اطلب عرض سعر"
+
+msgid "Telefon"
+msgstr "الهاتف"
+
+msgid "Tüm hakları saklıdır."
+msgstr "جميع الحقوق محفوظة."
+
+msgid "Tümünü Gör"
+msgstr "عرض الكل"
+
+msgid "Ürün Adı"
+msgstr "اسم المنتج"
+
+msgid "Ürünler"
+msgstr "المنتجات"
+
+msgid "Ürünleri İncele"
+msgstr "تصفح المنتجات"
+
+msgid "Konum haritası"
+msgstr "خريطة الموقع"
+
+msgid "Ürün 1"
+msgstr "المنتج 1"
+
+msgid "Ürün 2"
+msgstr "المنتج 2"
+
+msgid "Ürün 3"
+msgstr "المنتج 3"
+
+msgid "Ürün 4"
+msgstr "المنتج 4"
+
+msgid ""
+"İhtiyacınız Olan Her Şey, <span class=\"text-bronze-500\">Tek Adreste</span>"
+msgstr "كل ما تحتاجه، <span class=\"text-bronze-500\">في مكان واحد</span>"
+
+msgid ""
+"Sorularınız, talepleriniz ve iş birliği önerileriniz için formu doldurun, en"
+" kısa sürede size dönüş yapalım."
+msgstr ""
+"املأ النموذج لأسئلتك وطلباتك ومقترحات التعاون، وسنعاود التواصل معك في أقرب "
+"وقت ممكن."
+
+msgid "Örnek Mahallesi, Sanayi Caddesi No: 1<br>İstanbul, Türkiye"
+msgstr "حي أورنك، شارع الصناعة رقم 1<br>إسطنبول، تركيا"
+
+msgid "MARKA — kaliteli ürünler ve güvenilir hizmet."
+msgstr "MARKA — منتجات عالية الجودة وخدمة موثوقة."
+
+msgid "Kaliteli ürünler ve güvenilir hizmet için doğru adres."
+msgstr "العنوان الصحيح للمنتجات عالية الجودة والخدمة الموثوقة."
