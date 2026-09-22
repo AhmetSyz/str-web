@@ -1,0 +1,20 @@
+{% load static %}
+{% with img=image|default:"images/hero-placeholder.jpg" %}
+<section class="relative flex min-h-[32dvh] flex-col justify-end overflow-hidden bg-anthracite-950 lg:min-h-[38dvh]">
+    <div class="absolute inset-0" aria-hidden="true">
+        <img src="{% static img %}" alt="" class="h-full w-full bg-anthracite-800 object-cover opacity-35">
+        <div class="absolute inset-0 bg-gradient-to-t from-anthracite-950 via-anthracite-950/70 to-transparent"></div>
+    </div>
+
+    <div class="relative z-10 mx-auto w-full max-w-[1440px] px-6 pb-10 pt-28 lg:px-10 lg:pb-12 lg:pt-32">
+        <h1 class="slide-in-left font-display text-h3 font-semibold tracking-tight text-white sm:text-h2">
+            {{ title }}
+        </h1>
+        {% if subtitle %}
+        <p class="slide-in-right mt-3 max-w-2xl text-body-sm text-aluminium-300 lg:text-body">
+            {{ subtitle }}
+        </p>
+        {% endif %}
+    </div>
+</section>
+{% endwith %}

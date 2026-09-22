@@ -1,72 +1,247 @@
-{% load static tailwind_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Oto Yedek Parça{% endblock %}</title>
-    {% tailwind_css %}
-</head>
-<body class="flex min-h-screen flex-col bg-gray-50 text-gray-900">
+    <title>{% block title %}MARKA{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}MARKA — kaliteli ürünler ve güvenilir hizmet.{% endblock %}">
 
-    <header class="border-b border-gray-200 bg-white">
-        <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-            <a href="{% url 'catalog:index' %}" class="text-xl font-bold tracking-tight text-gray-900">
-                OTO<span class="text-red-600">PARÇA</span>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&display=swap">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        anthracite: {
+                            950: '#0A0B0D',
+                            900: '#111315',
+                            800: '#1E2226',
+                            700: '#2A2F35',
+                            600: '#383E46',
+                        },
+                        aluminium: {
+                            50:  '#F4F5F7',
+                            100: '#E7E9EC',
+                            200: '#D2D6DB',
+                            300: '#B2B8C0',
+                            400: '#8A929C',
+                            500: '#6A7480',
+                            600: '#525A64',
+                            700: '#3D444C',
+                        },
+                        paper: '#FAFBFC',
+                        bronze: {
+                            50:  '#FEF2F2',
+                            100: '#FEE2E2',
+                            200: '#FECACA',
+                            300: '#FCA5A5',
+                            400: '#F87171',
+                            500: '#DC2626',
+                            600: '#B91C1C',
+                            700: '#991B1B',
+                            800: '#7F1D1D',
+                            900: '#450A0A',
+                        },
+                        cobalt: {
+                            50:  '#FEF2F2',
+                            100: '#FEE2E2',
+                            300: '#FCA5A5',
+                            500: '#EF4444',
+                            700: '#B91C1C',
+                            900: '#7F1D1D',
+                        },
+                    },
+                    fontFamily: {
+                        display: ['"Space Grotesk"', 'sans-serif'],
+                        sans:    ['"Inter"', 'sans-serif'],
+                    },
+                    fontSize: {
+                        h1: ['3.75rem', { lineHeight: '1.05', fontWeight: '600' }],
+                        h2: ['2.75rem', { lineHeight: '1.1', fontWeight: '600' }],
+                        h3: ['2rem', { lineHeight: '1.2', fontWeight: '600' }],
+                        h4: ['1.5rem', { lineHeight: '1.3', fontWeight: '500' }],
+                        h5: ['1.25rem', { lineHeight: '1.4', fontWeight: '500' }],
+                        h6: ['1rem', { lineHeight: '1.4', fontWeight: '600' }],
+                        'body-lg': ['1.125rem', { lineHeight: '1.6', fontWeight: '400' }],
+                        body: ['1rem', { lineHeight: '1.6', fontWeight: '400' }],
+                        'body-sm': ['0.875rem', { lineHeight: '1.5', fontWeight: '400' }],
+                        caption: ['0.75rem', { lineHeight: '1.4', fontWeight: '500' }],
+                        button: ['0.9375rem', { lineHeight: '1', fontWeight: '600' }],
+                    },
+                    borderRadius: {
+                        none: '0px',
+                        sm:   '4px',
+                        DEFAULT: '8px',
+                        md:   '12px',
+                        lg:   '16px',
+                        xl:   '24px',
+                        full: '9999px',
+                    },
+                    spacing: {
+                        18: '4.5rem',
+                        22: '5.5rem',
+                        30: '7.5rem',
+                        38: '9.5rem',
+                    },
+                    backdropBlur: {
+                        glass: '16px',
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-down  { animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .slide-in-left  { animation: slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+        .slide-in-right { animation: slideInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
+        .slide-in-up    { animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both; }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="flex min-h-screen flex-col bg-anthracite-950 font-sans text-aluminium-100 antialiased">
+
+    <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-anthracite-950/80 shadow-md backdrop-blur-glass">
+        <nav aria-label="Primary" class="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 lg:h-20 lg:px-10">
+
+            <a href="{% url 'index' %}" class="shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-bronze-500">
+                <span class="font-display text-h5 font-semibold tracking-tight text-white">MARKA<span class="text-bronze-500">.</span></span>
             </a>
 
-            <ul class="hidden items-center gap-8 text-sm font-medium text-gray-700 sm:flex">
-                <li><a href="{% url 'catalog:index' %}" class="hover:text-red-600">Anasayfa</a></li>
-                <li><a href="#" class="hover:text-red-600">Ürünler</a></li>
-                <li><a href="{% url 'catalog:iletisim' %}" class="hover:text-red-600">İletişim</a></li>
+            <ul class="hidden items-center gap-8 lg:flex">
+                <li class="group relative">
+                    <button type="button" class="flex items-center gap-1 text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                        Ürünler
+                        <svg class="h-4 w-4 transition-transform duration-300 group-hover:rotate-180 group-hover:text-bronze-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="invisible absolute left-1/2 top-full mt-3 w-64 -translate-x-1/2 rounded-lg border border-white/10 bg-anthracite-900/95 p-2 opacity-0 shadow-2xl backdrop-blur-glass transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                        <a href="#" class="block rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">Kategori 1</a>
+                        <a href="#" class="block rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">Kategori 2</a>
+                        <a href="#" class="block rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">Kategori 3</a>
+                    </div>
+                </li>
+                <li><a href="#" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Projeler</a></li>
+                <li><a href="#" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Kurumsal</a></li>
+                <li><a href="{% url 'iletisim' %}" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">İletişim</a></li>
             </ul>
 
-            <a href="{% url 'catalog:iletisim' %}"
-               class="hidden rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 sm:inline-block">
-                Teklif Al
-            </a>
+            <div class="hidden lg:flex">
+                <a href="{% url 'iletisim' %}" class="inline-flex items-center gap-2 rounded bg-bronze-500 px-5 py-2.5 text-button font-medium text-white shadow-lg shadow-bronze-500/20 outline-none transition-all duration-300 hover:bg-bronze-600 hover:shadow-bronze-500/35 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                    Teklif Al
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </a>
+            </div>
+
+            <input type="checkbox" id="mobile-menu-toggle" class="peer hidden">
+
+            <label for="mobile-menu-toggle" class="inline-flex cursor-pointer items-center justify-center rounded p-2 text-white outline-none focus-visible:ring-2 focus-visible:ring-bronze-500 lg:hidden">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                <span class="sr-only">Menüyü aç</span>
+            </label>
+
+            <div class="fixed inset-0 z-[60] hidden peer-checked:block lg:hidden">
+                <label for="mobile-menu-toggle" class="absolute inset-0 bg-anthracite-950/80 backdrop-blur-glass" aria-hidden="true"></label>
+                <div class="absolute inset-y-0 right-0 flex w-80 max-w-[85vw] flex-col bg-anthracite-900 shadow-xl">
+                    <div class="flex items-center justify-between border-b border-white/10 px-6 py-5">
+                        <span class="font-display text-h6 font-semibold text-white">MARKA<span class="text-bronze-500">.</span></span>
+                        <label for="mobile-menu-toggle" class="cursor-pointer rounded p-2 text-white outline-none focus-visible:ring-2 focus-visible:ring-bronze-500">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            <span class="sr-only">Menüyü kapat</span>
+                        </label>
+                    </div>
+                    <div class="flex-1 overflow-y-auto px-6 py-4">
+                        <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Ürünler</a>
+                        <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Projeler</a>
+                        <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Kurumsal</a>
+                        <a href="{% url 'iletisim' %}" class="block py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">İletişim</a>
+                    </div>
+                    <div class="border-t border-white/10 p-6">
+                        <a href="{% url 'iletisim' %}" class="flex items-center justify-center gap-2 rounded bg-bronze-500 px-5 py-3 text-button font-medium text-white shadow-lg shadow-bronze-500/20 outline-none transition-colors hover:bg-bronze-600 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                            Teklif Al
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </nav>
     </header>
 
-    <main class="flex-1">
+    <main class="flex-1 pt-16 lg:pt-20">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="border-t border-gray-200 bg-white">
-        <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-            <div class="grid gap-8 sm:grid-cols-3">
+    <footer class="border-t border-anthracite-700 bg-anthracite-950">
+        <div class="mx-auto max-w-[1440px] px-6 py-18 lg:px-10 lg:py-22">
+            <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+
                 <div>
-                    <p class="text-lg font-bold tracking-tight text-gray-900">
-                        OTO<span class="text-red-600">PARÇA</span>
-                    </p>
-                    <p class="mt-2 text-sm text-gray-500">
-                        Güvenilir marka ve OEM araç yedek parçaları.
+                    <span class="font-display text-h5 font-semibold text-white">MARKA<span class="text-bronze-500">.</span></span>
+                    <p class="mt-3 max-w-xs text-body-sm text-aluminium-400">
+                        {% block footer_tagline %}Kaliteli ürünler ve güvenilir hizmet için doğru adres.{% endblock %}
                     </p>
                 </div>
 
                 <div>
-                    <p class="text-sm font-semibold text-gray-900">Bağlantılar</p>
-                    <ul class="mt-3 space-y-2 text-sm text-gray-500">
-                        <li><a href="{% url 'catalog:index' %}" class="hover:text-red-600">Anasayfa</a></li>
-                        <li><a href="#" class="hover:text-red-600">Ürünler</a></li>
-                        <li><a href="{% url 'catalog:iletisim' %}" class="hover:text-red-600">İletişim</a></li>
+                    <h3 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">Hızlı Bağlantılar</h3>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="{% url 'index' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Anasayfa</a></li>
+                        <li><a href="#" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Ürünler</a></li>
+                        <li><a href="{% url 'iletisim' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">İletişim</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <p class="text-sm font-semibold text-gray-900">İletişim</p>
-                    <ul class="mt-3 space-y-2 text-sm text-gray-500">
+                    <h3 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">Kurumsal</h3>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Hakkımızda</a></li>
+                        <li><a href="#" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">Projeler</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">İletişim</h3>
+                    <ul class="mt-4 space-y-3 text-body-sm text-aluminium-300">
                         <li>info@ornek.com</li>
                         <li>+90 (5xx) xxx xx xx</li>
                     </ul>
                 </div>
+
             </div>
 
-            <p class="mt-8 border-t border-gray-100 pt-6 text-xs text-gray-400">
-                &copy; {% now "Y" %} OTOPARÇA. Tüm hakları saklıdır.
-            </p>
+            <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-anthracite-800 pt-6 sm:flex-row">
+                <p class="text-caption text-aluminium-500">&copy; {% now "Y" %} MARKA. Tüm hakları saklıdır.</p>
+            </div>
         </div>
     </footer>
 
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
