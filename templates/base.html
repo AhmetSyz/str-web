@@ -119,7 +119,7 @@
     </style>
     {% block extra_head %}{% endblock %}
 </head>
-<body class="flex min-h-screen flex-col bg-anthracite-950 font-sans text-aluminium-100 antialiased">
+<body class="flex min-h-screen flex-col bg-anthracite-950 font-sans text-aluminium-100 antialiased has-[#mobile-menu-toggle:checked]:overflow-hidden">
 
     <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-anthracite-950/80 shadow-md backdrop-blur-glass">
         <nav aria-label="Primary" class="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 lg:h-20 lg:px-10">
@@ -258,8 +258,6 @@
                 </a>
             </div>
 
-            <input type="checkbox" id="mobile-menu-toggle" class="peer hidden">
-
             <label for="mobile-menu-toggle" class="inline-flex cursor-pointer items-center justify-center rounded p-2 text-white outline-none focus-visible:ring-2 focus-visible:ring-bronze-500 lg:hidden">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -267,137 +265,143 @@
                 <span class="sr-only">{% trans "Menüyü aç" %}</span>
             </label>
 
-            <div class="fixed inset-0 z-[60] hidden peer-checked:block lg:hidden">
-                <label for="mobile-menu-toggle" class="absolute inset-0 bg-anthracite-950/80 backdrop-blur-glass" aria-hidden="true"></label>
-                <div class="absolute inset-y-0 right-0 flex w-80 max-w-[85vw] flex-col bg-anthracite-900 shadow-xl">
-                    <div class="flex items-center justify-between border-b border-white/10 px-6 py-5">
-                        <span class="font-display text-h6 font-semibold text-white">MARKA<span class="text-bronze-500">.</span></span>
-                        <label for="mobile-menu-toggle" class="cursor-pointer rounded p-2 text-white outline-none focus-visible:ring-2 focus-visible:ring-bronze-500">
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                            <span class="sr-only">{% trans "Menüyü kapat" %}</span>
-                        </label>
-                    </div>
-                    <div class="flex-1 overflow-y-auto px-6 py-4">
-                        <details class="group border-b border-white/10">
-                            <summary class="flex cursor-pointer list-none items-center justify-between py-3 text-body font-medium text-white outline-none [&::-webkit-details-marker]:hidden marker:content-none focus-visible:ring-2 focus-visible:ring-bronze-500">
-                                {% trans "Markalar" %}
-                                <svg class="h-4 w-4 text-aluminium-500 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </summary>
-                            <div class="flex flex-col gap-1 pb-3 pl-3">
-                                {% for marka in NAVBAR_MARKALAR %}
-                                {% with modeller=marka.modeller.all %}
-                                {% if modeller %}
-                                <details class="group/alt">
-                                    <summary class="flex cursor-pointer list-none items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500 [&::-webkit-details-marker]:hidden marker:content-none">
-                                        {% if marka.logo %}
-                                        <img src="{{ marka.logo.url }}" alt="" class="h-6 w-6 shrink-0 rounded-full bg-white/5 object-contain">
-                                        {% else %}
-                                        <span class="h-6 w-6 shrink-0 rounded-full bg-anthracite-700" aria-hidden="true"></span>
-                                        {% endif %}
-                                        <span class="flex-1">{{ marka.ad }}</span>
-                                        <svg class="h-4 w-4 shrink-0 text-aluminium-500 transition-transform duration-300 group-open/alt:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </summary>
-                                    <div class="mb-1 ml-3 flex flex-col border-l border-white/10 pl-6">
-                                        <a href="{% url 'marka_urunleri' marka.slug %}" class="py-2 text-body-sm font-medium text-bronze-500 outline-none focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Tümünü gör" %}</a>
-                                        {% for model in modeller %}
-                                        <a href="{% url 'marka_urunleri' marka.slug %}?model={{ model.slug }}" class="py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{{ model.ad }}</a>
-                                        {% endfor %}
-                                    </div>
-                                </details>
-                                {% else %}
-                                <a href="{% url 'marka_urunleri' marka.slug %}" class="flex items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">
-                                    {% if marka.logo %}
-                                    <img src="{{ marka.logo.url }}" alt="" class="h-6 w-6 shrink-0 rounded-full bg-white/5 object-contain">
-                                    {% else %}
-                                    <span class="h-6 w-6 shrink-0 rounded-full bg-anthracite-700" aria-hidden="true"></span>
-                                    {% endif %}
-                                    {{ marka.ad }}
-                                </a>
-                                {% endif %}
-                                {% endwith %}
-                                {% empty %}
-                                <p class="py-2 text-body-sm text-aluminium-500">{% trans "Henüz marka eklenmedi." %}</p>
-                                {% endfor %}
-                            </div>
-                        </details>
-                        <details class="group border-b border-white/10">
-                            <summary class="flex cursor-pointer list-none items-center justify-between py-3 text-body font-medium text-white outline-none [&::-webkit-details-marker]:hidden marker:content-none focus-visible:ring-2 focus-visible:ring-bronze-500">
-                                {% trans "Kategoriler" %}
-                                <svg class="h-4 w-4 text-aluminium-500 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </summary>
-                            <div class="flex flex-col gap-1 pb-3 pl-3">
-                                {% for kategori in NAVBAR_KATEGORILER %}
-                                {% with alt_kategoriler=kategori.alt_kategoriler.all %}
-                                {% if alt_kategoriler %}
-                                <details class="group/alt">
-                                    <summary class="flex cursor-pointer list-none items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500 [&::-webkit-details-marker]:hidden marker:content-none">
-                                        <img src="{{ kategori.gorsel.url }}" alt="" class="h-8 w-8 shrink-0 rounded object-cover">
-                                        <span class="flex-1">{{ kategori.ad }}</span>
-                                        <svg class="h-4 w-4 shrink-0 text-aluminium-500 transition-transform duration-300 group-open/alt:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </summary>
-                                    <div class="mb-1 ml-4 flex flex-col border-l border-white/10 pl-7">
-                                        <a href="{% url 'kategoriler' %}#{{ kategori.slug }}" class="py-2 text-body-sm font-medium text-bronze-500 outline-none focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Tümünü gör" %}</a>
-                                        {% for alt in alt_kategoriler %}
-                                        <a href="{% url 'kategoriler' %}#{{ kategori.slug }}" class="py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{{ alt.ad }}</a>
-                                        {% endfor %}
-                                    </div>
-                                </details>
-                                {% else %}
-                                <a href="{% url 'kategoriler' %}#{{ kategori.slug }}" class="flex items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">
-                                    <img src="{{ kategori.gorsel.url }}" alt="" class="h-8 w-8 shrink-0 rounded object-cover">
-                                    {{ kategori.ad }}
-                                </a>
-                                {% endif %}
-                                {% endwith %}
-                                {% empty %}
-                                <p class="py-2 text-body-sm text-aluminium-500">{% trans "Henüz kategori eklenmedi." %}</p>
-                                {% endfor %}
-                            </div>
-                        </details>
-                        <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Projeler" %}</a>
-                        <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Kurumsal" %}</a>
-                        <a href="{% url 'iletisim' %}" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "İletişim" %}</a>
-
-                        <div class="flex flex-wrap gap-2 py-4">
-                            {% get_available_languages as AVAILABLE_LANGUAGES %}
-                            {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
-                            {% with current_view=request.resolver_match.url_name %}
-                            {% for lang in languages %}
-                            {% language lang.code %}{% url current_view as lang_next_url %}{% endlanguage %}
-                            <form action="{% url 'set_language' %}" method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="language" value="{{ lang.code }}">
-                                <input type="hidden" name="next" value="{{ lang_next_url }}">
-                                <button type="submit"
-                                        class="flex items-center gap-2 rounded-full border px-3 py-1.5 text-body-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-bronze-500 {% if lang.code == LANGUAGE_CODE %}border-bronze-500 text-white{% else %}border-white/10 text-aluminium-300 hover:border-white/30{% endif %}">
-                                    <span aria-hidden="true">{{ lang.code|flag_for }}</span>
-                                    {{ lang.code|upper }}
-                                </button>
-                            </form>
-                            {% endfor %}
-                            {% endwith %}
-                        </div>
-                    </div>
-                    <div class="border-t border-white/10 p-6">
-                        <a href="{% url 'iletisim' %}" class="flex items-center justify-center gap-2 rounded bg-bronze-500 px-5 py-3 text-button font-medium text-white shadow-lg shadow-bronze-500/20 outline-none transition-colors hover:bg-bronze-600 focus-visible:ring-2 focus-visible:ring-bronze-500">
-                            {% trans "Teklif Al" %}
-                        </a>
-                    </div>
-                </div>
-            </div>
-
         </nav>
     </header>
+
+    {% comment %}
+    Mobil menü header'ın DIŞINDA olmalı: header'daki backdrop-filter (backdrop-blur),
+    içindeki position:fixed elemanları ekrana değil header'a göre konumlandırıyor —
+    menü içerdeyken 64px'lik header yüksekliğine sıkışıp bozuk görünüyordu.
+    {% endcomment %}
+    <input type="checkbox" id="mobile-menu-toggle" class="peer hidden">
+    <div class="fixed inset-0 z-[60] hidden peer-checked:block lg:hidden">
+        <label for="mobile-menu-toggle" class="absolute inset-0 bg-anthracite-950/80 backdrop-blur-glass" aria-hidden="true"></label>
+        <div class="absolute inset-y-0 right-0 flex w-80 max-w-[85vw] flex-col bg-anthracite-900 shadow-xl">
+            <div class="flex items-center justify-between border-b border-white/10 px-6 py-5">
+                <span class="font-display text-h6 font-semibold text-white">MARKA<span class="text-bronze-500">.</span></span>
+                <label for="mobile-menu-toggle" class="cursor-pointer rounded p-2 text-white outline-none focus-visible:ring-2 focus-visible:ring-bronze-500">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    <span class="sr-only">{% trans "Menüyü kapat" %}</span>
+                </label>
+            </div>
+            <div class="flex-1 overflow-y-auto px-6 py-4">
+                <details class="group border-b border-white/10">
+                    <summary class="flex cursor-pointer list-none items-center justify-between py-3 text-body font-medium text-white outline-none [&::-webkit-details-marker]:hidden marker:content-none focus-visible:ring-2 focus-visible:ring-bronze-500">
+                        {% trans "Markalar" %}
+                        <svg class="h-4 w-4 text-aluminium-500 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </summary>
+                    <div class="flex flex-col gap-1 pb-3 pl-3">
+                        {% for marka in NAVBAR_MARKALAR %}
+                        {% with modeller=marka.modeller.all %}
+                        {% if modeller %}
+                        <details class="group/alt">
+                            <summary class="flex cursor-pointer list-none items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500 [&::-webkit-details-marker]:hidden marker:content-none">
+                                {% if marka.logo %}
+                                <img src="{{ marka.logo.url }}" alt="" class="h-6 w-6 shrink-0 rounded-full bg-white/5 object-contain">
+                                {% else %}
+                                <span class="h-6 w-6 shrink-0 rounded-full bg-anthracite-700" aria-hidden="true"></span>
+                                {% endif %}
+                                <span class="flex-1">{{ marka.ad }}</span>
+                                <svg class="h-4 w-4 shrink-0 text-aluminium-500 transition-transform duration-300 group-open/alt:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </summary>
+                            <div class="mb-1 ml-3 flex flex-col border-l border-white/10 pl-6">
+                                <a href="{% url 'marka_urunleri' marka.slug %}" class="py-2 text-body-sm font-medium text-bronze-500 outline-none focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Tümünü gör" %}</a>
+                                {% for model in modeller %}
+                                <a href="{% url 'marka_urunleri' marka.slug %}?model={{ model.slug }}" class="py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{{ model.ad }}</a>
+                                {% endfor %}
+                            </div>
+                        </details>
+                        {% else %}
+                        <a href="{% url 'marka_urunleri' marka.slug %}" class="flex items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                            {% if marka.logo %}
+                            <img src="{{ marka.logo.url }}" alt="" class="h-6 w-6 shrink-0 rounded-full bg-white/5 object-contain">
+                            {% else %}
+                            <span class="h-6 w-6 shrink-0 rounded-full bg-anthracite-700" aria-hidden="true"></span>
+                            {% endif %}
+                            {{ marka.ad }}
+                        </a>
+                        {% endif %}
+                        {% endwith %}
+                        {% empty %}
+                        <p class="py-2 text-body-sm text-aluminium-500">{% trans "Henüz marka eklenmedi." %}</p>
+                        {% endfor %}
+                    </div>
+                </details>
+                <details class="group border-b border-white/10">
+                    <summary class="flex cursor-pointer list-none items-center justify-between py-3 text-body font-medium text-white outline-none [&::-webkit-details-marker]:hidden marker:content-none focus-visible:ring-2 focus-visible:ring-bronze-500">
+                        {% trans "Kategoriler" %}
+                        <svg class="h-4 w-4 text-aluminium-500 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </summary>
+                    <div class="flex flex-col gap-1 pb-3 pl-3">
+                        {% for kategori in NAVBAR_KATEGORILER %}
+                        {% with alt_kategoriler=kategori.alt_kategoriler.all %}
+                        {% if alt_kategoriler %}
+                        <details class="group/alt">
+                            <summary class="flex cursor-pointer list-none items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500 [&::-webkit-details-marker]:hidden marker:content-none">
+                                <img src="{{ kategori.gorsel.url }}" alt="" class="h-8 w-8 shrink-0 rounded object-cover">
+                                <span class="flex-1">{{ kategori.ad }}</span>
+                                <svg class="h-4 w-4 shrink-0 text-aluminium-500 transition-transform duration-300 group-open/alt:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </summary>
+                            <div class="mb-1 ml-4 flex flex-col border-l border-white/10 pl-7">
+                                <a href="{% url 'kategoriler' %}#{{ kategori.slug }}" class="py-2 text-body-sm font-medium text-bronze-500 outline-none focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Tümünü gör" %}</a>
+                                {% for alt in alt_kategoriler %}
+                                <a href="{% url 'kategoriler' %}#{{ kategori.slug }}" class="py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{{ alt.ad }}</a>
+                                {% endfor %}
+                            </div>
+                        </details>
+                        {% else %}
+                        <a href="{% url 'kategoriler' %}#{{ kategori.slug }}" class="flex items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                            <img src="{{ kategori.gorsel.url }}" alt="" class="h-8 w-8 shrink-0 rounded object-cover">
+                            {{ kategori.ad }}
+                        </a>
+                        {% endif %}
+                        {% endwith %}
+                        {% empty %}
+                        <p class="py-2 text-body-sm text-aluminium-500">{% trans "Henüz kategori eklenmedi." %}</p>
+                        {% endfor %}
+                    </div>
+                </details>
+                <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Projeler" %}</a>
+                <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Kurumsal" %}</a>
+                <a href="{% url 'iletisim' %}" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "İletişim" %}</a>
+
+                <div class="flex flex-wrap gap-2 py-4">
+                    {% get_available_languages as AVAILABLE_LANGUAGES %}
+                    {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+                    {% with current_view=request.resolver_match.url_name %}
+                    {% for lang in languages %}
+                    {% language lang.code %}{% url current_view as lang_next_url %}{% endlanguage %}
+                    <form action="{% url 'set_language' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="language" value="{{ lang.code }}">
+                        <input type="hidden" name="next" value="{{ lang_next_url }}">
+                        <button type="submit"
+                                class="flex items-center gap-2 rounded-full border px-3 py-1.5 text-body-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-bronze-500 {% if lang.code == LANGUAGE_CODE %}border-bronze-500 text-white{% else %}border-white/10 text-aluminium-300 hover:border-white/30{% endif %}">
+                            <span aria-hidden="true">{{ lang.code|flag_for }}</span>
+                            {{ lang.code|upper }}
+                        </button>
+                    </form>
+                    {% endfor %}
+                    {% endwith %}
+                </div>
+            </div>
+            <div class="border-t border-white/10 p-6">
+                <a href="{% url 'iletisim' %}" class="flex items-center justify-center gap-2 rounded bg-bronze-500 px-5 py-3 text-button font-medium text-white shadow-lg shadow-bronze-500/20 outline-none transition-colors hover:bg-bronze-600 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                    {% trans "Teklif Al" %}
+                </a>
+            </div>
+        </div>
+    </div>
 
     <main class="flex-1 pt-16 lg:pt-20">
         {% block content %}{% endblock %}
