@@ -137,3 +137,40 @@ msgstr "MARKA — produits de qualité et service fiable."
 
 msgid "Kaliteli ürünler ve güvenilir hizmet için doğru adres."
 msgstr "La bonne adresse pour des produits de qualité et un service fiable."
+
+msgid "Markalar"
+msgstr "Marques"
+
+msgid "Kategoriler"
+msgstr "Catégories"
+
+msgid "Henüz kategori eklenmedi."
+msgstr "Aucune catégorie n'a encore été ajoutée."
+
+msgid "Henüz marka eklenmedi."
+msgstr "Aucune marque n'a encore été ajoutée."
+
+msgid "Aracınız için doğru parçayı bulmak üzere bir kategori seçin."
+msgstr ""
+"Choisissez une catégorie pour trouver la bonne pièce pour votre véhicule."
+
+msgid "Aracınızın markasını seçerek uyumlu parçaları keşfedin."
+msgstr ""
+"Sélectionnez la marque de votre véhicule pour découvrir les pièces "
+"compatibles."
+
+msgid "Tüm Modeller"
+msgstr "Tous les Modèles"
+
+msgid "Bu modele uyumlu ürün bulunamadı."
+msgstr "Aucun produit compatible avec ce modèle trouvé."
+
+msgid "Bu markaya uyumlu ürün bulunamadı."
+msgstr "Aucun produit compatible avec cette marque trouvé."
+
+msgid "%(marka_adi)s için uyumlu tüm yedek parçalar."
+msgstr "Toutes les pièces détachées compatibles pour %(marka_adi)s."
+
+#: templates/base.html
+msgid "Tümünü gör"
+msgstr "Tout voir"

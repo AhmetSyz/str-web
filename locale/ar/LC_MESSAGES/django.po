@@ -133,3 +133,37 @@ msgstr "MARKA — منتجات عالية الجودة وخدمة موثوقة."
 
 msgid "Kaliteli ürünler ve güvenilir hizmet için doğru adres."
 msgstr "العنوان الصحيح للمنتجات عالية الجودة والخدمة الموثوقة."
+
+msgid "Markalar"
+msgstr "الماركات"
+
+msgid "Kategoriler"
+msgstr "الفئات"
+
+msgid "Henüz kategori eklenmedi."
+msgstr "لم تتم إضافة أي فئات بعد."
+
+msgid "Henüz marka eklenmedi."
+msgstr "لم تتم إضافة أي ماركات بعد."
+
+msgid "Aracınız için doğru parçayı bulmak üzere bir kategori seçin."
+msgstr "اختر فئة للعثور على القطعة المناسبة لسيارتك."
+
+msgid "Aracınızın markasını seçerek uyumlu parçaları keşfedin."
+msgstr "اختر ماركة سيارتك لاكتشاف القطع المتوافقة."
+
+msgid "Tüm Modeller"
+msgstr "جميع الموديلات"
+
+msgid "Bu modele uyumlu ürün bulunamadı."
+msgstr "لم يتم العثور على منتجات متوافقة مع هذا الموديل."
+
+msgid "Bu markaya uyumlu ürün bulunamadı."
+msgstr "لم يتم العثور على منتجات متوافقة مع هذه الماركة."
+
+msgid "%(marka_adi)s için uyumlu tüm yedek parçalar."
+msgstr "جميع قطع الغيار المتوافقة مع %(marka_adi)s."
+
+#: templates/base.html
+msgid "Tümünü gör"
+msgstr "عرض الكل"

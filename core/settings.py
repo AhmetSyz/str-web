@@ -6,6 +6,7 @@ from pathlib import Path
 
 import dj_database_url
 from decouple import Csv, config
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,11 +22,28 @@ SECRET_KEY = config(
 DEBUG = config("DEBUG", default=True, cast=bool)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost", cast=Csv())
+CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", default="", cast=Csv())
+
+# Render, sitenin adresini (ör. str-web.onrender.com) bu değişkene kendisi
+# yazar. Elle ALLOWED_HOSTS/CSRF_TRUSTED_ORIGINS'e eklemeye gerek kalmasın diye
+# burada otomatik ekliyoruz.
+RENDER_EXTERNAL_HOSTNAME = config("RENDER_EXTERNAL_HOSTNAME", default="")
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
+
+# Render HTTPS'i kendi proxy'sinde sonlandırıp Django'ya düz HTTP iletiyor.
+# Bu olmadan Django isteği güvensiz sanıyor ve admin girişi gibi POST
+# formları "CSRF verification failed – Origin checking failed" ile reddediliyor.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    # modeltranslation, admin'i patch'lediği için django.contrib.admin'den
+    # önce yüklenmeli.
+    "modeltranslation",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -75,6 +93,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.i18n",
+                "catalog.context_processors.navbar_markalar",
+                "catalog.context_processors.navbar_kategoriler",
             ],
         },
     },
@@ -91,8 +111,13 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Yerel geliştirmede .env dosyasında tanımlı değilse sqlite'a düşer.
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+    # dj_database_url.config() kendi başına os.environ'a bakar; python-decouple
+    # ise .env dosyasını os.environ'a yazmaz, sadece kendi config() çağrıları
+    # için okur. İkisi birlikte kullanılınca DATABASE_URL .env'e yazılsa bile
+    # sessizce görmezden geliniyordu (proje hep SQLite'a düşüyordu). Bunun
+    # yerine .env'i decouple ile okuyup dj_database_url.parse()'a veriyoruz.
+    "default": dj_database_url.parse(
+        config("DATABASE_URL", default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
         conn_max_age=600,
     )
 }
@@ -132,6 +157,13 @@ LANGUAGES = [
 
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
+# django-modeltranslation — veritabanı içeriğini (ürün/kategori adı ve
+# açıklaması) çok dilli yapmak için. Şablon metinleri için kullanılan
+# yukarıdaki LANGUAGES/gettext sisteminden ayrı bir mekanizma: bu, model
+# alanlarını dile göre ayrı kolonlara böler (ör. ad_tr, ad_en, ...).
+MODELTRANSLATION_DEFAULT_LANGUAGE = "tr"
+MODELTRANSLATION_LANGUAGES = ("tr", "en", "fr", "es", "ar")
+
 TIME_ZONE = "Europe/Istanbul"
 
 USE_I18N = True
@@ -146,23 +178,39 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "assets", BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Media files (product images) are stored on Cloudinary, not on the local
-# (ephemeral) filesystem of the hosting platform.
+# Media files (product images). Production'da (hosting platformunun dosya
+# sistemi geçici olduğu için) Cloudinary kullanılır. Yerelde CLOUDINARY_*
+# değişkenleri boşsa (Cloudinary hesabı gerekmesin diye) düz dosya sistemine
+# (MEDIA_ROOT) düşer — aksi halde admin'den herhangi bir görsel yüklemek
+# "Must supply api_key" hatasıyla çöker.
 MEDIA_URL = "media/"
-
-STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+MEDIA_ROOT = BASE_DIR / "media"
 
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": config("CLOUDINARY_CLOUD_NAME", default=""),
     "API_KEY": config("CLOUDINARY_API_KEY", default=""),
     "API_SECRET": config("CLOUDINARY_API_SECRET", default=""),
+}
+
+if CLOUDINARY_STORAGE["CLOUD_NAME"]:
+    DEFAULT_MEDIA_BACKEND = "cloudinary_storage.storage.MediaCloudinaryStorage"
+elif DEBUG:
+    DEFAULT_MEDIA_BACKEND = "django.core.files.storage.FileSystemStorage"
+else:
+    # Production'da sessizce diske düşmek, yüklenen görsellerin bir sonraki
+    # deploy'da kaybolması (ve DEBUG=False'ta hiç sunulmaması) demek —
+    # ford logosunun kaybolmasının sebebi de bu tür bir sessiz geçişti.
+    raise ImproperlyConfigured(
+        "DEBUG=False iken CLOUDINARY_CLOUD_NAME/API_KEY/API_SECRET tanımlı olmalı."
+    )
+
+STORAGES = {
+    "default": {
+        "BACKEND": DEFAULT_MEDIA_BACKEND,
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
 }
 
 # Default primary key field type

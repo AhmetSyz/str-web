@@ -133,3 +133,37 @@ msgstr "MARKA — quality products and reliable service."
 
 msgid "Kaliteli ürünler ve güvenilir hizmet için doğru adres."
 msgstr "The right address for quality products and reliable service."
+
+msgid "Markalar"
+msgstr "Brands"
+
+msgid "Kategoriler"
+msgstr "Categories"
+
+msgid "Henüz kategori eklenmedi."
+msgstr "No categories have been added yet."
+
+msgid "Henüz marka eklenmedi."
+msgstr "No brands have been added yet."
+
+msgid "Aracınız için doğru parçayı bulmak üzere bir kategori seçin."
+msgstr "Choose a category to find the right part for your vehicle."
+
+msgid "Aracınızın markasını seçerek uyumlu parçaları keşfedin."
+msgstr "Select your vehicle's brand to discover compatible parts."
+
+msgid "Tüm Modeller"
+msgstr "All Models"
+
+msgid "Bu modele uyumlu ürün bulunamadı."
+msgstr "No products found compatible with this model."
+
+msgid "Bu markaya uyumlu ürün bulunamadı."
+msgstr "No products found compatible with this brand."
+
+msgid "%(marka_adi)s için uyumlu tüm yedek parçalar."
+msgstr "All compatible spare parts for %(marka_adi)s."
+
+#: templates/base.html
+msgid "Tümünü gör"
+msgstr "View all"

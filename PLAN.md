@@ -17,7 +17,28 @@ detaylı görev dökümü, o faza başlanmadan hemen önce ayrıca çıkarılaca
 - Cloudinary ile ürün görseli yükleme entegrasyonu
 - Admin panel üzerinden içerik yönetimi
 
+## Faz 3: Ürün Kataloğu Ön Yüzü (Frontend)
+
+Navbar mega-menu referansı: `str-web/navbar example.png`.
+
+- [x] Navbar'daki "Ürünler" dropdown'ı (statik "Kategori 1/2/3") kaldırılıp
+      **Kategoriler** için düz bir sayfa bağlantısı eklenmesi
+- [x] Araç yedek parçası sektörüne uygun gerçek kategori verisinin (ve
+      alt kategorilerinin) veri migration'ı ile eklenmesi
+- [x] **Kategoriler** sayfası (üst seviye kategori kartları + alt kategoriler)
+- [x] **Markalar** artık ayrı bir sayfa değil: navbar'da gerçek marka
+      verisiyle dolu bir dropdown (masaüstünde hover-panel, mobilde
+      `<details>` akordeon) — bir markaya tıklanınca o markanın tüm
+      modellerine uyumlu ürünler listeleniyor, sayfa üstündeki model
+      rozetleriyle (`?model=<slug>`) tek bir modele daraltılabiliyor
+- [ ] Kategori sayfasından bir kategoriye tıklanınca marka/model'e göre
+      filtrelenebilen ürün listesi (`schema.md`'deki Yol A gezinme akışının
+      kalan kısmı — Yol B, yani marka-önce, artık yukarıdaki marka
+      dropdown'ıyla karşılanmış durumda)
+- [ ] Ürün detay sayfası
+- [ ] Arama
+
 ---
 
-Sonraki fazlar (ürün listeleme/filtreleme sayfaları, arama, deploy
-yapılandırması vb.) Faz 2 tamamlandıktan sonra ayrıca planlanacaktır.
+Sonraki fazlar (arama, deploy yapılandırması vb.) Faz 3 tamamlandıktan
+sonra ayrıca planlanacaktır.

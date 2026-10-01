@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{{ marka.ad }} | MARKA{% endblock %}
+
+{% block content %}
+
+    {% blocktrans with marka_adi=marka.ad asvar page_subtitle %}{{ marka_adi }} için uyumlu tüm yedek parçalar.{% endblocktrans %}
+    {% include "partials/page_header.html" with title=marka.ad subtitle=page_subtitle %}
+
+    <section class="mx-auto max-w-[1440px] px-6 py-16 lg:px-10 lg:py-24">
+
+        {% if modeller %}
+        <div class="flex flex-wrap gap-2">
+            <a href="{% url 'marka_urunleri' marka.slug %}"
+               class="rounded-full border px-4 py-1.5 text-body-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-bronze-500 {% if not secilen_model %}border-bronze-500 bg-bronze-500 text-white{% else %}border-anthracite-700 text-aluminium-300 hover:border-bronze-500 hover:text-white{% endif %}">
+                {% trans "Tüm Modeller" %}
+            </a>
+            {% for model in modeller %}
+            <a href="?model={{ model.slug }}"
+               class="rounded-full border px-4 py-1.5 text-body-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-bronze-500 {% if secilen_model.id == model.id %}border-bronze-500 bg-bronze-500 text-white{% else %}border-anthracite-700 text-aluminium-300 hover:border-bronze-500 hover:text-white{% endif %}">
+                {{ model.ad }}
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if urunler %}
+        <div class="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+            {% for urun in urunler %}
+            <div class="group overflow-hidden rounded-lg border border-anthracite-700 bg-anthracite-900">
+                <div class="aspect-square overflow-hidden bg-anthracite-800">
+                    {% if urun.ana_gorsel %}
+                    <img src="{{ urun.ana_gorsel.url }}" alt="{{ urun.ad }}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    {% endif %}
+                </div>
+                <div class="p-4">
+                    <h3 class="text-body-sm font-semibold text-white">{{ urun.ad }}</h3>
+                    <p class="mt-1 text-caption text-aluminium-400">{{ urun.parca_numarasi }}</p>
+                    <p class="mt-2 text-body-sm font-semibold text-bronze-500">{{ urun.fiyat }} ₺</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="mt-8 text-body text-aluminium-400">
+            {% if secilen_model %}
+                {% trans "Bu modele uyumlu ürün bulunamadı." %}
+            {% else %}
+                {% trans "Bu markaya uyumlu ürün bulunamadı." %}
+            {% endif %}
+        </p>
+        {% endif %}
+
+    </section>
+
+{% endblock %}

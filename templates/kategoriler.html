@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Kategoriler" %} | MARKA{% endblock %}
+
+{% block content %}
+
+    {% trans "Kategoriler" as page_title %}
+    {% blocktrans asvar page_subtitle %}Aracınız için doğru parçayı bulmak üzere bir kategori seçin.{% endblocktrans %}
+    {% include "partials/page_header.html" with title=page_title subtitle=page_subtitle %}
+
+    <section class="mx-auto max-w-[1440px] px-6 py-16 lg:px-10 lg:py-24">
+        {% if kategoriler %}
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {% for kategori in kategoriler %}
+            <div id="{{ kategori.slug }}" class="scroll-mt-24 overflow-hidden rounded-lg border border-anthracite-700 bg-anthracite-900 lg:scroll-mt-28">
+                <div class="aspect-[16/10] overflow-hidden bg-anthracite-800">
+                    <img src="{{ kategori.gorsel.url }}" alt="{{ kategori.ad }}" class="h-full w-full object-cover">
+                </div>
+                    <div class="p-5">
+                        <h2 class="font-display text-h5 font-semibold text-white">{{ kategori.ad }}</h2>
+
+                        {% if kategori.aciklama %}
+                        <p class="mt-2 text-body-sm text-aluminium-400">{{ kategori.aciklama }}</p>
+                        {% endif %}
+
+                        {% if kategori.alt_kategoriler.all %}
+                        <ul class="mt-4 flex flex-wrap gap-2">
+                            {% for alt in kategori.alt_kategoriler.all %}
+                            <li class="rounded-full border border-anthracite-700 px-3 py-1 text-caption text-aluminium-300">
+                                {{ alt.ad }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-body text-aluminium-400">{% trans "Henüz kategori eklenmedi." %}</p>
+        {% endif %}
+    </section>
+
+{% endblock %}
