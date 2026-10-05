@@ -1,95 +1,152 @@
 {% extends "base.html" %}
 {% load static i18n %}
 
-{% block title %}Anasayfa | MARKA{% endblock %}
+{% block title %}{{ SITE.site_adi }}{% endblock %}
 
 {% block content %}
 
-    <section class="relative flex min-h-[85dvh] items-end justify-start overflow-hidden bg-anthracite-950">
-        <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
-            <img src="{% static 'images/hero-placeholder.jpg' %}" alt="" class="h-full w-full bg-anthracite-800 object-cover">
+    {% comment %}
+    Hero: admin'deki Ana Sayfa → Slaytlar. Birden fazla slayt varsa fotoğraflar
+    sayfa.slayt_suresi saniyede bir yumuşak geçişle değişir ve her slaytın yazısı
+    (boşsa ana sayfa başlığı) soldan/sağdan kayarak gelir. Fotoğraflar renk
+    katmanı olmadan gösterilir; yazının okunması için sadece yazı tarafında
+    nötr siyah bir geçiş var. Slayt yoksa lacivert yer tutucu zemin.
+    {% endcomment %}
+    <section data-hero data-sure="{{ sayfa.slayt_suresi|default:6 }}"
+             class="relative flex min-h-[78dvh] items-end overflow-hidden bg-anthracite-900 lg:min-h-[84dvh]"
+             {% if slaytlar|length > 1 %}aria-roledescription="carousel"{% endif %}>
+
+        {% if slaytlar %}
+        {% for slayt in slaytlar %}
+        <img src="{{ slayt.gorsel.url }}" alt="" data-slayt-gorsel
+             class="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out {% if forloop.first %}opacity-100{% else %}opacity-0{% endif %}"
+             {% if not forloop.first %}loading="lazy"{% endif %}>
+        {% endfor %}
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" aria-hidden="true"></div>
+        <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/60 to-transparent" aria-hidden="true"></div>
+        {% else %}
+        <div class="absolute inset-0" aria-hidden="true">
+            {# Yer tutucu düz lacivert; açık temada soluk gösteriliyor. #}
+            <img src="{% static 'images/hero-placeholder.jpg' %}" alt="" class="h-full w-full bg-anthracite-800 object-cover opacity-20 dark:opacity-100">
             <div class="absolute inset-0 bg-gradient-to-t from-anthracite-950 via-anthracite-950/60 to-anthracite-950/20"></div>
         </div>
+        {% endif %}
 
-        <div class="relative z-10 mx-auto w-full max-w-[1440px] px-6 pb-14 pt-28 lg:px-10 lg:pb-20 lg:pt-38">
-            <p class="fade-in-down text-caption font-semibold uppercase tracking-[0.14em] text-bronze-500 lg:text-body-sm">
-                {% block hero_eyebrow %}{% trans "Kalite ve Güven" %}{% endblock %}
-            </p>
-
+        <div class="relative z-10 mx-auto w-full max-w-[1440px] px-6 pb-32 pt-28 lg:px-10 lg:pb-40 lg:pt-36">
+            {% if slaytlar %}
+            {% for slayt in slaytlar %}
+            <div data-slayt-metin class="{% if not forloop.first %}hidden{% endif %}" {% if not forloop.first %}aria-hidden="true"{% endif %}>
+                {% with ust=slayt.ust_baslik|default:sayfa.ust_baslik baslik=slayt.baslik|default:sayfa.baslik %}
+                {% if ust %}
+                <p class="fade-in-down text-caption font-semibold uppercase tracking-[0.14em] text-accent-300 lg:text-body-sm">{{ ust }}</p>
+                {% endif %}
+                {% if forloop.first %}<h1{% else %}<p{% endif %} class="slide-in-left mt-3 max-w-3xl font-display text-h3 font-semibold leading-[1.15] tracking-tight text-on-accent drop-shadow-sm sm:text-h2 lg:text-h1">
+                    {{ baslik }}{% if slayt.baslik %}{% if slayt.baslik_vurgu %} <span class="text-accent-300">{{ slayt.baslik_vurgu }}</span>{% endif %}{% elif sayfa.baslik_vurgu %} <span class="text-accent-300">{{ sayfa.baslik_vurgu }}</span>{% endif %}
+                {% if forloop.first %}</h1>{% else %}</p>{% endif %}
+                {% if slayt.baslik %}{% if slayt.alt_baslik %}
+                <p class="slide-in-right mt-4 max-w-2xl whitespace-pre-line text-body-sm leading-relaxed text-on-accent/85 lg:text-body">{{ slayt.alt_baslik }}</p>
+                {% endif %}{% elif slayt.alt_baslik or sayfa.alt_baslik %}
+                <p class="slide-in-right mt-4 max-w-2xl whitespace-pre-line text-body-sm leading-relaxed text-on-accent/85 lg:text-body">{{ slayt.alt_baslik|default:sayfa.alt_baslik }}</p>
+                {% endif %}
+                {% endwith %}
+            </div>
+            {% endfor %}
+            {% else %}
+            {% if sayfa.ust_baslik %}
+            <p class="fade-in-down text-caption font-semibold uppercase tracking-[0.14em] text-accent-500 lg:text-body-sm">{{ sayfa.ust_baslik }}</p>
+            {% endif %}
             <h1 class="slide-in-left mt-3 max-w-3xl font-display text-h3 font-semibold leading-[1.15] tracking-tight text-white sm:text-h2 lg:text-h1">
-                {% block hero_title %}{% blocktrans %}İhtiyacınız Olan Her Şey, <span class="text-bronze-500">Tek Adreste</span>{% endblocktrans %}{% endblock %}
+                {{ sayfa.baslik }}{% if sayfa.baslik_vurgu %} <span class="text-accent-500">{{ sayfa.baslik_vurgu }}</span>{% endif %}
             </h1>
+            {% if sayfa.alt_baslik %}
+            <p class="slide-in-right mt-4 max-w-2xl whitespace-pre-line text-body-sm leading-relaxed text-aluminium-200 lg:text-body">{{ sayfa.alt_baslik }}</p>
+            {% endif %}
+            {% endif %}
+        </div>
 
-            <p class="slide-in-right mt-4 max-w-2xl text-body-sm leading-relaxed text-aluminium-200 lg:text-body">
-                {% block hero_subtitle %}{% trans "Geniş ürün yelpazemiz ve uzman ekibimizle yanınızdayız." %}{% endblock %}
-            </p>
+        {% if slaytlar|length > 1 %}
+        <div class="absolute inset-x-0 bottom-20 z-10 mx-auto flex max-w-[1440px] gap-2 px-6 lg:bottom-24 lg:px-10">
+            {% for slayt in slaytlar %}
+            <button type="button" data-slayt-nokta="{{ forloop.counter0 }}"
+                    class="h-1.5 rounded-full outline-none transition-all duration-500 hover:bg-on-accent/70 focus-visible:ring-2 focus-visible:ring-accent-300 {% if forloop.first %}w-8 bg-on-accent{% else %}w-4 bg-on-accent/40{% endif %}">
+                <span class="sr-only">{% blocktrans with no=forloop.counter %}{{ no }}. fotoğraf{% endblocktrans %}</span>
+            </button>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </section>
 
-            <div class="slide-in-up mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <a href="#one-cikanlar"
-                   class="group inline-flex items-center justify-center gap-2 rounded bg-bronze-500 px-7 py-3.5 text-button font-medium text-white shadow-lg shadow-bronze-500/20 outline-none transition-all duration-300 hover:bg-bronze-600 hover:shadow-bronze-500/40 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-bronze-500">
-                    {% trans "Ürünleri İncele" %}
-                    <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
+    {# Arama: hero'nun alt kenarına biner. Menüler aşağı açılabilsin diye bu bölüm hero'nun dışında. #}
+    <section id="parca-bul" class="relative z-20 mx-auto -mt-16 max-w-[1440px] scroll-mt-28 px-6 pb-16 lg:-mt-20 lg:px-10 lg:pb-24">
+        <div class="slide-in-up">
+            {% include "partials/arama_paneli.html" %}
+            <div class="mt-5 flex px-1 flex-wrap items-center gap-x-6 gap-y-2 text-body-sm">
+                <a href="{% url 'kategoriler' %}" class="group inline-flex items-center gap-1.5 font-medium text-aluminium-200 outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-accent-500">
+                    {% trans "Tüm kategorilere göz atın" %}
+                    <svg class="h-4 w-4 text-accent-500 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </a>
-                <a href="{% url 'iletisim' %}"
-                   class="inline-flex items-center justify-center gap-2 rounded border border-white/20 bg-white/5 px-7 py-3.5 text-button font-medium text-white backdrop-blur-sm outline-none transition-all duration-300 hover:border-white/50 hover:bg-white/10 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-bronze-500">
-                    {% trans "Bize Ulaşın" %}
-                </a>
+                <span class="text-aluminium-500">
+                    {% trans "Aradığınızı bulamadınız mı?" %}
+                    <a href="{% url 'iletisim' %}" class="font-medium text-accent-500 underline-offset-4 outline-none transition-colors hover:underline focus-visible:ring-2 focus-visible:ring-accent-500 dark:text-accent-400">{% trans "Bize ulaşın" %}</a>
+                </span>
             </div>
         </div>
     </section>
 
-    <section id="one-cikanlar" class="mx-auto max-w-[1440px] px-6 py-16 lg:px-10 lg:py-24">
-        <div class="flex items-end justify-between">
-            <h2 class="font-display text-h3 font-semibold text-white">{% trans "Öne Çıkan Ürünler" %}</h2>
-            <a href="#" class="text-body-sm font-medium text-bronze-500 outline-none transition-colors hover:text-bronze-400 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Tümünü Gör" %} &rarr;</a>
-        </div>
+{% endblock %}
 
-        <div class="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+{% block extra_js %}
+{% if slaytlar|length > 1 %}
+<script>
+    // Hero slaytları: fotoğraflar yumuşak geçişle değişir, yazılar animasyonla yeniden girer.
+    (function () {
+        var hero = document.querySelector("[data-hero]");
+        var gorseller = hero.querySelectorAll("[data-slayt-gorsel]");
+        var metinler = hero.querySelectorAll("[data-slayt-metin]");
+        var noktalar = hero.querySelectorAll("[data-slayt-nokta]");
+        var sure = Math.max(2, parseInt(hero.dataset.sure, 10) || 6) * 1000;
+        var azHareket = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var ANIMASYONLAR = ["fade-in-down", "slide-in-left", "slide-in-right"];
+        var aktif = 0, zamanlayici = null;
 
-            <div class="group overflow-hidden rounded-lg border border-anthracite-700 bg-anthracite-900">
-                <div class="aspect-square overflow-hidden bg-anthracite-800">
-                    <img src="{% static 'images/product-placeholder-1.jpg' %}" alt="{% trans 'Ürün 1' %}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                </div>
-                <div class="p-4">
-                    <h3 class="text-body-sm font-semibold text-white">{% trans "Ürün Adı" %}</h3>
-                    <p class="mt-1 text-caption text-aluminium-400">{% trans "Kısa ürün açıklaması" %}</p>
-                </div>
-            </div>
+        function animasyonuYenidenBaslat(kap) {
+            ANIMASYONLAR.forEach(function (sinif) {
+                kap.querySelectorAll("." + sinif).forEach(function (el) {
+                    el.classList.remove(sinif);
+                    void el.offsetWidth; // tarayıcıyı animasyonu baştan oynatmaya zorla
+                    el.classList.add(sinif);
+                });
+            });
+        }
 
-            <div class="group overflow-hidden rounded-lg border border-anthracite-700 bg-anthracite-900">
-                <div class="aspect-square overflow-hidden bg-anthracite-800">
-                    <img src="{% static 'images/product-placeholder-2.jpg' %}" alt="{% trans 'Ürün 2' %}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                </div>
-                <div class="p-4">
-                    <h3 class="text-body-sm font-semibold text-white">{% trans "Ürün Adı" %}</h3>
-                    <p class="mt-1 text-caption text-aluminium-400">{% trans "Kısa ürün açıklaması" %}</p>
-                </div>
-            </div>
+        function goster(i) {
+            if (i === aktif) return;
+            gorseller[aktif].classList.replace("opacity-100", "opacity-0");
+            gorseller[i].classList.replace("opacity-0", "opacity-100");
+            metinler[aktif].classList.add("hidden"); metinler[aktif].setAttribute("aria-hidden", "true");
+            metinler[i].classList.remove("hidden"); metinler[i].removeAttribute("aria-hidden");
+            animasyonuYenidenBaslat(metinler[i]);
+            noktalar.forEach(function (n, j) {
+                n.classList.toggle("w-8", j === i); n.classList.toggle("bg-on-accent", j === i);
+                n.classList.toggle("w-4", j !== i); n.classList.toggle("bg-on-accent/40", j !== i);
+            });
+            aktif = i;
+        }
 
-            <div class="group overflow-hidden rounded-lg border border-anthracite-700 bg-anthracite-900">
-                <div class="aspect-square overflow-hidden bg-anthracite-800">
-                    <img src="{% static 'images/product-placeholder-3.jpg' %}" alt="{% trans 'Ürün 3' %}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                </div>
-                <div class="p-4">
-                    <h3 class="text-body-sm font-semibold text-white">{% trans "Ürün Adı" %}</h3>
-                    <p class="mt-1 text-caption text-aluminium-400">{% trans "Kısa ürün açıklaması" %}</p>
-                </div>
-            </div>
+        function durdur() { clearInterval(zamanlayici); }
+        function baslat() {
+            durdur();
+            if (!azHareket) zamanlayici = setInterval(function () { goster((aktif + 1) % gorseller.length); }, sure);
+        }
 
-            <div class="group overflow-hidden rounded-lg border border-anthracite-700 bg-anthracite-900">
-                <div class="aspect-square overflow-hidden bg-anthracite-800">
-                    <img src="{% static 'images/product-placeholder-4.jpg' %}" alt="{% trans 'Ürün 4' %}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                </div>
-                <div class="p-4">
-                    <h3 class="text-body-sm font-semibold text-white">{% trans "Ürün Adı" %}</h3>
-                    <p class="mt-1 text-caption text-aluminium-400">{% trans "Kısa ürün açıklaması" %}</p>
-                </div>
-            </div>
-
-            {# Ürün kartları, veritabanı modelleri hazır olduğunda dinamik olarak (bir for döngüsüyle) buraya eklenecek. #}
-        </div>
-    </section>
-
+        noktalar.forEach(function (n) {
+            n.addEventListener("click", function () { goster(parseInt(n.dataset.slaytNokta, 10)); baslat(); });
+        });
+        hero.addEventListener("mouseenter", durdur);
+        hero.addEventListener("mouseleave", baslat);
+        document.addEventListener("visibilitychange", function () { document.hidden ? durdur() : baslat(); });
+        baslat();
+    })();
+</script>
+{% endif %}
 {% endblock %}

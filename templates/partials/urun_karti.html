@@ -1,0 +1,13 @@
+<a href="{{ urun.get_absolute_url }}" class="group overflow-hidden rounded-lg border border-anthracite-700 bg-anthracite-900 outline-none transition-colors hover:border-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">
+    {% if urun.ana_gorsel %}
+    <div class="aspect-square overflow-hidden bg-foto-zemin">
+        <img src="{{ urun.ana_gorsel.url }}" alt="{{ urun.ad }}" class="h-full w-full object-contain">
+    </div>
+    {% else %}
+    <div class="aspect-square bg-anthracite-800"></div>
+    {% endif %}
+    <div class="p-4">
+        <h3 class="text-body-sm font-semibold text-white">{{ urun.ad }}</h3>
+        <p class="mt-1 text-caption text-aluminium-400">{{ urun.parca_numarasi }}</p>
+    </div>
+</a>

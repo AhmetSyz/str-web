@@ -1,6 +1,6 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from .models import Category, Product
+from .models import Category, Product, ProductFeature
 
 # Sadece müşteriye gösterilen açıklayıcı metinler çevrilebilir yapıldı.
 # VehicleBrand/VehicleModel/PartBrand.ad ("Toyota", "Corolla", "Bosch") gibi
@@ -15,3 +15,9 @@ class CategoryTranslationOptions(TranslationOptions):
 @register(Product)
 class ProductTranslationOptions(TranslationOptions):
     fields = ("ad", "aciklama")
+
+
+@register(ProductFeature)
+class ProductFeatureTranslationOptions(TranslationOptions):
+    # "Renk: Siyah" gibi değerler de dile göre değişebildiği için ikisi de.
+    fields = ("ad", "deger")

@@ -1,20 +1,32 @@
 {% load static %}
-{% with img=image|default:"images/hero-placeholder.jpg" %}
-<section class="relative flex min-h-[32dvh] flex-col justify-end overflow-hidden bg-anthracite-950 lg:min-h-[38dvh]">
-    <div class="absolute inset-0" aria-hidden="true">
-        <img src="{% static img %}" alt="" class="h-full w-full bg-anthracite-800 object-cover opacity-35">
-        <div class="absolute inset-0 bg-gradient-to-t from-anthracite-950 via-anthracite-950/70 to-transparent"></div>
-    </div>
+{% comment %}
+Sayfa üst bölümü. `sayfa` (SayfaBasligi) verilirse başlık/alt başlık/görsel
+admin'den gelir; `title`/`subtitle` verilirse onlar öncelikli (ör. marka sayfası).
+Görsel sırası: sayfanın görseli → Site Ayarları'ndaki varsayılan görsel → yer tutucu.
 
+Yüklenen fotoğraf renk katmanı olmadan gösterilir, yazılar üstünde (beyaz) durur;
+okunabilirlik için sadece yazı tarafında nötr siyah geçiş var. Fotoğraf yoksa
+yazılar lacivert yer tutucu zeminin üstünde, tema renginde durur.
+{% endcomment %}
+{% if sayfa.gorsel or SITE.varsayilan_sayfa_gorseli %}
+<section class="relative flex min-h-[34dvh] flex-col justify-end overflow-hidden bg-anthracite-900 lg:min-h-[40dvh]">
+    <img src="{% if sayfa.gorsel %}{{ sayfa.gorsel.url }}{% else %}{{ SITE.varsayilan_sayfa_gorseli.url }}{% endif %}"
+         alt="" class="absolute inset-0 h-full w-full object-cover">
+    {# Fotoğrafa renk katılmıyor; yazı okunsun diye sadece yazı tarafında nötr siyah geçiş. #}
+    <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-transparent" aria-hidden="true"></div>
+    <div class="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black/55 to-transparent" aria-hidden="true"></div>
     <div class="relative z-10 mx-auto w-full max-w-[1440px] px-6 pb-10 pt-28 lg:px-10 lg:pb-12 lg:pt-32">
-        <h1 class="slide-in-left font-display text-h3 font-semibold tracking-tight text-white sm:text-h2">
-            {{ title }}
-        </h1>
-        {% if subtitle %}
-        <p class="slide-in-right mt-3 max-w-2xl text-body-sm text-aluminium-300 lg:text-body">
-            {{ subtitle }}
-        </p>
-        {% endif %}
+        {% include "partials/page_header_metin.html" with foto_uzerinde=True %}
     </div>
 </section>
-{% endwith %}
+{% else %}
+<section class="relative flex min-h-[32dvh] flex-col justify-end overflow-hidden bg-anthracite-950 lg:min-h-[38dvh]">
+    <div class="absolute inset-0" aria-hidden="true">
+        <img src="{% static 'images/hero-placeholder.jpg' %}" alt="" class="h-full w-full bg-anthracite-800 object-cover opacity-15 dark:opacity-35">
+        <div class="absolute inset-0 bg-gradient-to-t from-anthracite-950 via-anthracite-950/70 to-transparent"></div>
+    </div>
+    <div class="relative z-10 mx-auto w-full max-w-[1440px] px-6 pb-10 pt-28 lg:px-10 lg:pb-12 lg:pt-32">
+        {% include "partials/page_header_metin.html" %}
+    </div>
+</section>
+{% endif %}

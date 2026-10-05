@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ kategori.ad }} | {{ SITE.site_adi }}{% endblock %}
+
+{% block content %}
+
+    {% include "partials/page_header.html" with title=kategori.ad subtitle=kategori.aciklama %}
+
+    <section class="mx-auto max-w-[1440px] px-6 py-10 lg:px-10 lg:py-14">
+
+        <nav aria-label="{% trans 'Sayfa yolu' %}" class="text-caption text-aluminium-500">
+            <ol class="flex flex-wrap items-center gap-1.5">
+                <li><a href="{% url 'kategoriler' %}" class="outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Kategoriler" %}</a></li>
+                <li aria-hidden="true">/</li>
+                {% if kategori.ust_kategori %}
+                <li><a href="{{ ust.get_absolute_url }}" class="outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{{ ust.ad }}</a></li>
+                <li aria-hidden="true">/</li>
+                {% endif %}
+                <li aria-current="page" class="text-aluminium-300">{{ kategori.ad }}</li>
+            </ol>
+        </nav>
+
+        {% if alt_kategoriler %}
+        {# Yatayda kaydırılabilir: telefonda çok etiket varsa satır taşmaz. #}
+        <div class="-mx-6 mt-6 overflow-x-auto px-6 pb-1 lg:mx-0 lg:px-0">
+            <ul class="flex w-max gap-2 lg:w-auto lg:flex-wrap">
+                <li>
+                    <a href="{{ ust.get_absolute_url }}"
+                       class="block whitespace-nowrap rounded-full border px-4 py-1.5 text-body-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-500 {% if kategori == ust %}border-accent-500 bg-accent-500 text-on-accent{% else %}border-anthracite-700 text-aluminium-300 hover:border-accent-500 hover:text-white{% endif %}"
+                       {% if kategori == ust %}aria-current="page"{% endif %}>
+                        {% trans "Tümü" %}
+                    </a>
+                </li>
+                {% for alt in alt_kategoriler %}
+                <li>
+                    <a href="{{ alt.get_absolute_url }}"
+                       class="block whitespace-nowrap rounded-full border px-4 py-1.5 text-body-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-500 {% if alt == kategori %}border-accent-500 bg-accent-500 text-on-accent{% else %}border-anthracite-700 text-aluminium-300 hover:border-accent-500 hover:text-white{% endif %}"
+                       {% if alt == kategori %}aria-current="page"{% endif %}>
+                        {{ alt.ad }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <p class="mt-8 text-body-sm text-aluminium-400">
+            {% blocktrans with sayi=urunler|length %}Bulunan ürün: {{ sayi }}{% endblocktrans %}
+        </p>
+
+        {% if urunler %}
+        <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4">
+            {% for urun in urunler %}
+            {% include "partials/urun_karti.html" %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="mt-4 rounded-lg border border-dashed border-white/15 px-6 py-12 text-center">
+            <p class="text-body text-aluminium-200">{% trans "Bu kategoride henüz ürün bulunmuyor." %}</p>
+            <p class="mt-2 text-body-sm text-aluminium-400">
+                {% trans "Aradığınız parça için" %}
+                <a href="{% url 'iletisim' %}" class="font-medium text-accent-500 underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-accent-500 dark:text-accent-400">{% trans "bize ulaşın" %}</a>.
+            </p>
+        </div>
+        {% endif %}
+
+    </section>
+
+{% endblock %}

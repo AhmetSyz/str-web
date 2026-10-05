@@ -167,3 +167,209 @@ msgstr "جميع قطع الغيار المتوافقة مع %(marka_adi)s."
 #: templates/base.html
 msgid "Tümünü gör"
 msgstr "عرض الكل"
+
+msgid "Sayfa yolu"
+msgstr "مسار التنقل"
+
+msgid "Parça Markası"
+msgstr "علامة القطعة"
+
+msgid "Parça Numarası"
+msgstr "رقم القطعة"
+
+msgid "Araç Markası / Modeli"
+msgstr "ماركة / طراز المركبة"
+
+msgid "Uyumluluk Yılları"
+msgstr "سنوات التوافق"
+
+msgid "Kategori"
+msgstr "الفئة"
+
+msgid "Genel Özellikler"
+msgstr "المواصفات العامة"
+
+msgid "Uyumlu Araçlar"
+msgstr "المركبات المتوافقة"
+
+msgid "Marka"
+msgstr "الماركة"
+
+msgid "Model"
+msgstr "الطراز"
+
+msgid "Versiyon"
+msgstr "الإصدار"
+
+msgid "Motor Hacmi"
+msgstr "سعة المحرك"
+
+msgid "Kasa Tipi"
+msgstr "نوع الهيكل"
+
+msgid "Yıl Aralığı"
+msgstr "نطاق السنوات"
+
+msgid "Bu ürün için henüz uyumlu araç bilgisi girilmedi."
+msgstr "لم تتم إضافة معلومات المركبات المتوافقة لهذا المنتج بعد."
+
+msgid "Sedan"
+msgstr "سيدان"
+
+msgid "Hatchback"
+msgstr "هاتشباك"
+
+msgid "Station Wagon"
+msgstr "ستيشن واغن"
+
+msgid "SUV"
+msgstr "دفع رباعي"
+
+msgid "Coupe"
+msgstr "كوبيه"
+
+msgid "Cabrio"
+msgstr "مكشوفة"
+
+msgid "Pickup"
+msgstr "بيك أب"
+
+msgid "Panelvan"
+msgstr "فان"
+
+msgid "Minibüs"
+msgstr "ميني باص"
+
+msgid "Kamyonet"
+msgstr "شاحنة خفيفة"
+
+msgid "Tüm markalar"
+msgstr "جميع الماركات"
+
+msgid "Önce marka seçin"
+msgstr "اختر الماركة أولاً"
+
+msgid "Tüm modeller"
+msgstr "جميع الطرازات"
+
+msgid "Tüm kategoriler"
+msgstr "جميع الفئات"
+
+#, python-format
+msgid "%(ad)s (tümü)"
+msgstr "%(ad)s (الكل)"
+
+msgid "Ürün"
+msgstr "المنتج"
+
+msgid "Tüm ürünler"
+msgstr "جميع المنتجات"
+
+msgid "Ara"
+msgstr "بحث"
+
+msgid "Aracınıza uygun parçayı bulun"
+msgstr "اعثر على القطعة المناسبة لمركبتك"
+
+msgid "Parça Ara"
+msgstr "البحث عن قطع"
+
+msgid ""
+"Aracınızın markasını, modelini ve aradığınız parçanın kategorisini seçin."
+msgstr "اختر ماركة مركبتك وطرازها وفئة القطعة التي تبحث عنها."
+
+#, python-format
+msgid "Bulunan ürün: %(sayi)s"
+msgstr "المنتجات التي تم العثور عليها: %(sayi)s"
+
+msgid ""
+"Seçimlerinize uygun ürün bulunamadı. Filtrelerden birini kaldırarak tekrar "
+"deneyin."
+msgstr "لا توجد منتجات مطابقة لاختياراتك. جرّب إزالة أحد عوامل التصفية."
+
+msgid "Sonuç bulunamadı"
+msgstr "لا توجد نتائج"
+
+msgid "Tüm kategorilere göz atın"
+msgstr "تصفح جميع الفئات"
+
+msgid "Aradığınızı bulamadınız mı?"
+msgstr "لم تجد ما تبحث عنه؟"
+
+msgid "Bize ulaşın"
+msgstr "تواصل معنا"
+
+msgid "Filtreleri temizle"
+msgstr "مسح عوامل التصفية"
+
+msgid "Temayı değiştir"
+msgstr "تبديل المظهر"
+
+msgid "Parça kodunu biliyor musunuz?"
+msgstr "هل تعرف رقم القطعة؟"
+
+msgid "Parça kodu veya ürün adı, ör. BP-123"
+msgstr "رقم القطعة أو اسم المنتج، مثل BP-123"
+
+msgid "Kodla Ara"
+msgstr "ابحث بالرقم"
+
+#, python-format
+msgid "“%(kod)s” için bulunan ürün: %(sayi)s"
+msgstr "المنتجات التي تم العثور عليها لـ «%(kod)s»: %(sayi)s"
+
+#, python-format
+msgid "“%(kod)s” koduyla eşleşen ürün bulunamadı."
+msgstr "لا يوجد منتج يطابق «%(kod)s»."
+
+msgid "Kodu kontrol edip tekrar deneyin ya da"
+msgstr "تحقق من الرقم وحاول مرة أخرى، أو"
+
+msgid "bize ulaşın"
+msgstr "تواصل معنا"
+
+msgid "Parça kodu ile ara"
+msgstr "البحث برقم القطعة"
+
+msgid "ör. BP-123"
+msgstr "مثل BP-123"
+
+msgid "WhatsApp'tan yazın"
+msgstr "راسلنا على واتساب"
+
+msgid "isteğe bağlı"
+msgstr "اختياري"
+
+msgid "Mesajınız alındı. En kısa sürede size dönüş yapacağız."
+msgstr "تم استلام رسالتك. سنعاود التواصل معك قريبًا."
+
+msgid "Bu bölümün içeriği yakında eklenecek."
+msgstr "سيتم إضافة محتوى هذا القسم قريبًا."
+
+msgid "Sizin için doğru parçayı birlikte bulalım."
+msgstr "لنجد معًا القطعة المناسبة لك."
+
+msgid "Sorularınız için ekibimize ulaşın."
+msgstr "تواصل مع فريقنا لأي استفسار."
+
+#, python-format
+msgid "%(no)s. fotoğraf"
+msgstr "الصورة %(no)s"
+
+msgid "Aracınızı seçin ya da parça kodunu yazın."
+msgstr "اختر مركبتك أو أدخل رقم القطعة."
+
+msgid "veya"
+msgstr "أو"
+
+msgid "Tümü"
+msgstr "الكل"
+
+msgid "Ürünleri gör"
+msgstr "عرض المنتجات"
+
+msgid "Bu kategoride henüz ürün bulunmuyor."
+msgstr "لا توجد منتجات في هذه الفئة بعد."
+
+msgid "Aradığınız parça için"
+msgstr "للقطعة التي تبحث عنها،"

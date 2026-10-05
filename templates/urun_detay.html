@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ urun.ad }} | {{ SITE.site_adi }}{% endblock %}
+
+{% block content %}
+
+    <section class="mx-auto max-w-[1440px] px-6 pb-16 pt-10 lg:px-10 lg:pb-24 lg:pt-14">
+
+        <nav aria-label="{% trans 'Sayfa yolu' %}" class="text-caption text-aluminium-500">
+            <ol class="flex flex-wrap items-center gap-1.5">
+                <li><a href="{% url 'kategoriler' %}" class="outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Kategoriler" %}</a></li>
+                {% with ust=urun.kategori.ust_kategori|default:urun.kategori %}
+                <li aria-hidden="true">/</li>
+                <li><a href="{{ ust.get_absolute_url }}" class="outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{{ ust.ad }}</a></li>
+                {% if urun.kategori.ust_kategori %}
+                <li aria-hidden="true">/</li>
+                <li><a href="{{ urun.kategori.get_absolute_url }}" class="outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{{ urun.kategori.ad }}</a></li>
+                {% endif %}
+                {% endwith %}
+            </ol>
+        </nav>
+
+        <div class="mt-6 grid gap-10 lg:grid-cols-2 lg:gap-16">
+
+            {# Görseller #}
+            <div>
+                <div class="aspect-square overflow-hidden rounded-lg border border-anthracite-700 {% if urun.ana_gorsel or urun.gorseller.all %}bg-foto-zemin{% else %}bg-anthracite-800{% endif %}">
+                    {% if urun.ana_gorsel %}
+                    <img id="ana-gorsel" src="{{ urun.ana_gorsel.url }}" alt="{{ urun.ad }}" class="h-full w-full object-contain">
+                    {% elif urun.gorseller.all %}
+                    <img id="ana-gorsel" src="{{ urun.gorseller.all.0.gorsel.url }}" alt="{{ urun.ad }}" class="h-full w-full object-contain">
+                    {% endif %}
+                </div>
+                {% if urun.gorseller.all %}
+                <div class="mt-3 grid grid-cols-4 gap-3 sm:grid-cols-5">
+                    {% if urun.ana_gorsel %}
+                    <button type="button" data-gorsel="{{ urun.ana_gorsel.url }}" class="aspect-square overflow-hidden rounded border border-anthracite-700 bg-foto-zemin outline-none transition-colors hover:border-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">
+                        <img src="{{ urun.ana_gorsel.url }}" alt="" class="h-full w-full object-contain">
+                    </button>
+                    {% endif %}
+                    {% for g in urun.gorseller.all %}
+                    <button type="button" data-gorsel="{{ g.gorsel.url }}" class="aspect-square overflow-hidden rounded border border-anthracite-700 bg-foto-zemin outline-none transition-colors hover:border-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">
+                        <img src="{{ g.gorsel.url }}" alt="" class="h-full w-full object-contain">
+                    </button>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            {# Başlık ve özet bilgiler #}
+            <div>
+                {% if urun.parca_markasi %}
+                <p class="text-caption font-semibold uppercase tracking-widest text-accent-500">{{ urun.parca_markasi.ad }}</p>
+                {% endif %}
+                <h1 class="mt-2 font-display text-h3 font-semibold tracking-tight text-white sm:text-h2">{{ urun.ad }}</h1>
+
+                <dl class="mt-8 divide-y divide-white/10 border-y border-white/10 text-body-sm">
+                    <div class="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-4 py-3">
+                        <dt class="text-aluminium-400">{% trans "Parça Markası" %}</dt>
+                        <dd class="text-white">{{ urun.parca_markasi.ad|default:"—" }}</dd>
+                    </div>
+                    <div class="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-4 py-3">
+                        <dt class="text-aluminium-400">{% trans "Parça Numarası" %}</dt>
+                        <dd class="break-words font-mono text-white">{{ urun.parca_numarasi }}</dd>
+                    </div>
+                    <div class="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-4 py-3">
+                        <dt class="text-aluminium-400">{% trans "Araç Markası / Modeli" %}</dt>
+                        <dd class="text-white">
+                            {% for model in uyumlu_modeller %}{{ model.marka.ad }} {{ model.ad }}{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}
+                        </dd>
+                    </div>
+                    <div class="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-4 py-3">
+                        <dt class="text-aluminium-400">{% trans "Uyumluluk Yılları" %}</dt>
+                        <dd class="text-white">
+                            {% if yil_min and yil_max %}{{ yil_min }}–{{ yil_max }}{% elif yil_min %}{{ yil_min }}+{% elif yil_max %}–{{ yil_max }}{% else %}—{% endif %}
+                        </dd>
+                    </div>
+                    <div class="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-4 py-3">
+                        <dt class="text-aluminium-400">{% trans "Kategori" %}</dt>
+                        <dd class="text-white">{{ urun.kategori.ad }}</dd>
+                    </div>
+                </dl>
+
+                {% if urun.aciklama %}
+                <p class="mt-8 whitespace-pre-line text-body text-aluminium-300">{{ urun.aciklama }}</p>
+                {% endif %}
+
+                <a href="{% url 'iletisim' %}" class="mt-8 inline-flex items-center gap-2 rounded bg-accent-500 px-6 py-3 text-button font-medium text-on-accent shadow-lg shadow-accent-500/20 outline-none transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-600 focus-visible:ring-2 focus-visible:ring-accent-500">
+                    {% trans "Teklif Al" %}
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        {# Genel özellikler #}
+        {% if urun.ozellikler.all %}
+        <div class="mt-16 lg:mt-20">
+            <h2 class="font-display text-h4 font-semibold text-white">{% trans "Genel Özellikler" %}</h2>
+            <dl class="mt-6 grid overflow-hidden rounded-lg border border-anthracite-700 bg-anthracite-900 sm:grid-cols-2">
+                {% for ozellik in urun.ozellikler.all %}
+                <div class="-mb-px grid grid-cols-2 gap-4 border-b border-anthracite-700 px-5 py-3 text-body-sm sm:odd:border-r">
+                    <dt class="text-aluminium-400">{{ ozellik.ad }}</dt>
+                    <dd class="font-medium text-white">{{ ozellik.deger }}</dd>
+                </div>
+                {% endfor %}
+            </dl>
+        </div>
+        {% endif %}
+
+        {# Uyumlu araçlar #}
+        <div class="mt-16 lg:mt-20">
+            <h2 class="font-display text-h4 font-semibold text-white">{% trans "Uyumlu Araçlar" %}</h2>
+            {% if uyumluluklar %}
+
+            {# Masaüstü: tablo #}
+            <div class="mt-6 hidden overflow-hidden rounded-lg border border-anthracite-700 md:block">
+                <table class="w-full text-left text-body-sm">
+                    <thead class="bg-anthracite-900 text-caption uppercase tracking-wide text-aluminium-400">
+                        <tr>
+                            <th scope="col" class="px-5 py-3 font-medium">{% trans "Marka" %}</th>
+                            <th scope="col" class="px-5 py-3 font-medium">{% trans "Model" %}</th>
+                            <th scope="col" class="px-5 py-3 font-medium">{% trans "Versiyon" %}</th>
+                            <th scope="col" class="px-5 py-3 font-medium">{% trans "Motor Hacmi" %}</th>
+                            <th scope="col" class="px-5 py-3 font-medium">{% trans "Kasa Tipi" %}</th>
+                            <th scope="col" class="px-5 py-3 font-medium">{% trans "Yıl Aralığı" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-anthracite-700">
+                        {% for u in uyumluluklar %}
+                        {% with v=u.arac_versiyonu %}
+                        <tr class="text-aluminium-200">
+                            <td class="px-5 py-3 text-white">{{ v.model.marka.ad }}</td>
+                            <td class="px-5 py-3">{{ v.model.ad }}</td>
+                            <td class="px-5 py-3">{{ v.ad }}</td>
+                            <td class="px-5 py-3">{% if v.motor_hacmi %}{{ v.motor_hacmi }} L{% else %}—{% endif %}</td>
+                            <td class="px-5 py-3">{{ v.get_kasa_tipi_display|default:"—" }}</td>
+                            <td class="px-5 py-3">{{ u.yil_araligi|default:"—" }}</td>
+                        </tr>
+                        {% endwith %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {# Mobil: kartlar (6 sütunlu tablo telefona sığmıyor) #}
+            <ul class="mt-6 space-y-3 md:hidden">
+                {% for u in uyumluluklar %}
+                {% with v=u.arac_versiyonu %}
+                <li class="rounded-lg border border-anthracite-700 bg-anthracite-900 p-4">
+                    <p class="font-medium text-white">{{ v.model.marka.ad }} {{ v.model.ad }} <span class="text-aluminium-400">· {{ v.ad }}</span></p>
+                    <dl class="mt-3 grid grid-cols-3 gap-3 text-caption">
+                        <div>
+                            <dt class="text-aluminium-500">{% trans "Motor Hacmi" %}</dt>
+                            <dd class="mt-0.5 text-aluminium-200">{% if v.motor_hacmi %}{{ v.motor_hacmi }} L{% else %}—{% endif %}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-aluminium-500">{% trans "Kasa Tipi" %}</dt>
+                            <dd class="mt-0.5 text-aluminium-200">{{ v.get_kasa_tipi_display|default:"—" }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-aluminium-500">{% trans "Yıl Aralığı" %}</dt>
+                            <dd class="mt-0.5 text-aluminium-200">{{ u.yil_araligi|default:"—" }}</dd>
+                        </div>
+                    </dl>
+                </li>
+                {% endwith %}
+                {% endfor %}
+            </ul>
+
+            {% else %}
+            <p class="mt-6 text-body text-aluminium-400">{% trans "Bu ürün için henüz uyumlu araç bilgisi girilmedi." %}</p>
+            {% endif %}
+        </div>
+
+    </section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Küçük resme tıklanınca ana görseli değiştir.
+    document.querySelectorAll("[data-gorsel]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var ana = document.getElementById("ana-gorsel");
+            if (ana) ana.src = btn.dataset.gorsel;
+        });
+    });
+</script>
+{% endblock %}

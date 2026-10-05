@@ -1,0 +1,13 @@
+{% comment %}
+Site logosu. `boyut`: "buyuk" (header/footer) ya da "kucuk" (mobil menü).
+Koyu tema logosu yüklüyse koyu temada o, yoksa her iki temada normal logo;
+hiç logo yoksa site adı yazı olarak gösterilir.
+{% endcomment %}
+{% if SITE.logo %}
+<img src="{{ SITE.logo.url }}" alt="{{ SITE.site_adi }}" class="{% if boyut == 'kucuk' %}h-8{% else %}h-9 lg:h-10{% endif %} w-auto max-w-[180px] object-contain{% if SITE.logo_koyu_tema %} dark:hidden{% endif %}">
+{% if SITE.logo_koyu_tema %}
+<img src="{{ SITE.logo_koyu_tema.url }}" alt="{{ SITE.site_adi }}" class="hidden {% if boyut == 'kucuk' %}h-8{% else %}h-9 lg:h-10{% endif %} w-auto max-w-[180px] object-contain dark:block">
+{% endif %}
+{% else %}
+<span class="font-display {% if boyut == 'kucuk' %}text-h6{% else %}text-h5{% endif %} font-semibold tracking-tight text-white">{{ SITE.site_adi }}<span class="text-accent-500">.</span></span>
+{% endif %}

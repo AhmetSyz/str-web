@@ -173,3 +173,215 @@ msgstr "Todas las piezas de repuesto compatibles para %(marka_adi)s."
 #: templates/base.html
 msgid "Tümünü gör"
 msgstr "Ver todo"
+
+msgid "Sayfa yolu"
+msgstr "Ruta de navegación"
+
+msgid "Parça Markası"
+msgstr "Marca de la pieza"
+
+msgid "Parça Numarası"
+msgstr "Número de pieza"
+
+msgid "Araç Markası / Modeli"
+msgstr "Marca / Modelo del vehículo"
+
+msgid "Uyumluluk Yılları"
+msgstr "Años compatibles"
+
+msgid "Kategori"
+msgstr "Categoría"
+
+msgid "Genel Özellikler"
+msgstr "Características"
+
+msgid "Uyumlu Araçlar"
+msgstr "Vehículos compatibles"
+
+msgid "Marka"
+msgstr "Marca"
+
+msgid "Model"
+msgstr "Modelo"
+
+msgid "Versiyon"
+msgstr "Versión"
+
+msgid "Motor Hacmi"
+msgstr "Cilindrada"
+
+msgid "Kasa Tipi"
+msgstr "Tipo de carrocería"
+
+msgid "Yıl Aralığı"
+msgstr "Rango de años"
+
+msgid "Bu ürün için henüz uyumlu araç bilgisi girilmedi."
+msgstr ""
+"Aún no se ha añadido información de vehículos compatibles para este "
+"producto."
+
+msgid "Sedan"
+msgstr "Sedán"
+
+msgid "Hatchback"
+msgstr "Hatchback"
+
+msgid "Station Wagon"
+msgstr "Familiar"
+
+msgid "SUV"
+msgstr "SUV"
+
+msgid "Coupe"
+msgstr "Cupé"
+
+msgid "Cabrio"
+msgstr "Descapotable"
+
+msgid "Pickup"
+msgstr "Pickup"
+
+msgid "Panelvan"
+msgstr "Furgón"
+
+msgid "Minibüs"
+msgstr "Minibús"
+
+msgid "Kamyonet"
+msgstr "Camioneta"
+
+msgid "Tüm markalar"
+msgstr "Todas las marcas"
+
+msgid "Önce marka seçin"
+msgstr "Primero elija una marca"
+
+msgid "Tüm modeller"
+msgstr "Todos los modelos"
+
+msgid "Tüm kategoriler"
+msgstr "Todas las categorías"
+
+#, python-format
+msgid "%(ad)s (tümü)"
+msgstr "%(ad)s (todo)"
+
+msgid "Ürün"
+msgstr "Producto"
+
+msgid "Tüm ürünler"
+msgstr "Todos los productos"
+
+msgid "Ara"
+msgstr "Buscar"
+
+msgid "Aracınıza uygun parçayı bulun"
+msgstr "Encuentre la pieza adecuada para su vehículo"
+
+msgid "Parça Ara"
+msgstr "Buscar piezas"
+
+msgid ""
+"Aracınızın markasını, modelini ve aradığınız parçanın kategorisini seçin."
+msgstr ""
+"Seleccione la marca y el modelo de su vehículo y la categoría de la pieza "
+"que busca."
+
+#, python-format
+msgid "Bulunan ürün: %(sayi)s"
+msgstr "Productos encontrados: %(sayi)s"
+
+msgid ""
+"Seçimlerinize uygun ürün bulunamadı. Filtrelerden birini kaldırarak tekrar "
+"deneyin."
+msgstr ""
+"Ningún producto coincide con su selección. Pruebe a quitar uno de los "
+"filtros."
+
+msgid "Sonuç bulunamadı"
+msgstr "Sin resultados"
+
+msgid "Tüm kategorilere göz atın"
+msgstr "Ver todas las categorías"
+
+msgid "Aradığınızı bulamadınız mı?"
+msgstr "¿No encuentra lo que busca?"
+
+msgid "Bize ulaşın"
+msgstr "Contáctenos"
+
+msgid "Filtreleri temizle"
+msgstr "Borrar filtros"
+
+msgid "Temayı değiştir"
+msgstr "Cambiar tema"
+
+msgid "Parça kodunu biliyor musunuz?"
+msgstr "¿Conoce el número de pieza?"
+
+msgid "Parça kodu veya ürün adı, ör. BP-123"
+msgstr "Número de pieza o nombre, p. ej. BP-123"
+
+msgid "Kodla Ara"
+msgstr "Buscar por número"
+
+#, python-format
+msgid "“%(kod)s” için bulunan ürün: %(sayi)s"
+msgstr "Productos encontrados para «%(kod)s»: %(sayi)s"
+
+#, python-format
+msgid "“%(kod)s” koduyla eşleşen ürün bulunamadı."
+msgstr "Ningún producto coincide con «%(kod)s»."
+
+msgid "Kodu kontrol edip tekrar deneyin ya da"
+msgstr "Compruebe el número e inténtelo de nuevo, o"
+
+msgid "bize ulaşın"
+msgstr "contáctenos"
+
+msgid "Parça kodu ile ara"
+msgstr "Buscar por número de pieza"
+
+msgid "ör. BP-123"
+msgstr "p. ej. BP-123"
+
+msgid "WhatsApp'tan yazın"
+msgstr "Escríbanos por WhatsApp"
+
+msgid "isteğe bağlı"
+msgstr "opcional"
+
+msgid "Mesajınız alındı. En kısa sürede size dönüş yapacağız."
+msgstr "Hemos recibido su mensaje. Le responderemos en breve."
+
+msgid "Bu bölümün içeriği yakında eklenecek."
+msgstr "El contenido de esta sección estará disponible pronto."
+
+msgid "Sizin için doğru parçayı birlikte bulalım."
+msgstr "Encontremos juntos la pieza adecuada para usted."
+
+msgid "Sorularınız için ekibimize ulaşın."
+msgstr "Contacte a nuestro equipo para cualquier consulta."
+
+#, python-format
+msgid "%(no)s. fotoğraf"
+msgstr "Foto %(no)s"
+
+msgid "Aracınızı seçin ya da parça kodunu yazın."
+msgstr "Seleccione su vehículo o introduzca un número de pieza."
+
+msgid "veya"
+msgstr "o"
+
+msgid "Tümü"
+msgstr "Todo"
+
+msgid "Ürünleri gör"
+msgstr "Ver productos"
+
+msgid "Bu kategoride henüz ürün bulunmuyor."
+msgstr "Todavía no hay productos en esta categoría."
+
+msgid "Aradığınız parça için"
+msgstr "Para la pieza que busca,"

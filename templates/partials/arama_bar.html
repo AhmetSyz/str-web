@@ -1,0 +1,269 @@
+{% load i18n %}
+{% comment %}
+Marka → Model → Kategori → Ürün arama çubuğu. Ana sayfada boş, arama
+sonuçları sayfasında `secili` (marka/model/kategori slug'ları) ile dolu gelir.
+Markalar/modeller/kategoriler navbar'ın context processor'ından (NAVBAR_*)
+geliyor; ürün listesi seçimlere göre arama_urunler endpoint'inden çekiliyor.
+Açılır listeler Tom Select ile aranabilir hale getiriliyor.
+{% endcomment %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css">
+<style>
+    /* Tom Select'i sitenin koyu temasına uydur. */
+    .arama-bar .ts-wrapper { min-height: 0; }
+    .arama-bar .ts-wrapper.single .ts-control,
+    .arama-bar .ts-wrapper.single.input-active .ts-control {
+        background: transparent; border: 0; box-shadow: none; padding: 2px 22px 0 0;
+        min-height: 0; color: rgb(var(--c-ink)); font-size: 0.9375rem; font-weight: 500; line-height: 1.5;
+        cursor: pointer;
+    }
+    .arama-bar .ts-wrapper.single .ts-control::after {
+        border-color: rgb(var(--c-alu-500)) transparent transparent; right: 2px; margin-top: -1px;
+    }
+    .arama-bar .ts-wrapper.single.dropdown-active .ts-control::after {
+        border-color: transparent transparent rgb(var(--c-acc-500));
+    }
+    /* Menü açıkken arama kutusu seçili değerin altına ikinci satır olarak
+       düşmesin: değer gizlenir, kutu aynı satırda (değer ipucu olarak) görünür. */
+    .arama-bar .ts-wrapper.single .ts-control { flex-wrap: nowrap; }
+    .arama-bar .ts-wrapper.single.input-active.dropdown-active .ts-control .item { display: none; }
+    .arama-bar .ts-wrapper.single.input-active .ts-control > input { flex: 1 1 auto; min-width: 0; }
+    .arama-bar .ts-control > input { color: rgb(var(--c-ink)); font-size: 0.9375rem; font-weight: 500; line-height: 1.5; }
+    .arama-bar .ts-control > input::placeholder { color: rgb(var(--c-alu-500)); }
+    .arama-bar .ts-control .item { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .arama-bar .ts-wrapper.disabled { opacity: 1; }
+    .arama-bar .ts-wrapper.disabled .ts-control { opacity: 1; cursor: not-allowed; color: rgb(var(--c-alu-600)); }
+
+    .ts-dropdown.arama-dropdown {
+        background: rgb(var(--c-anth-900)); border: 1px solid rgb(var(--c-anth-700)); border-radius: 12px; margin-top: 14px;
+        color: rgb(var(--c-alu-200)); box-shadow: 0 24px 48px -12px rgb(0 0 0 / 0.35); overflow: hidden;
+        min-width: 260px; z-index: 40;
+    }
+    .ts-dropdown.arama-dropdown .ts-dropdown-content { max-height: 320px; padding: 6px; }
+    .ts-dropdown.arama-dropdown .option { padding: 10px 12px; border-radius: 8px; font-size: 0.875rem; }
+    .ts-dropdown.arama-dropdown .option.active { background: rgb(var(--c-acc-500) / 0.12); color: rgb(var(--c-ink)); }
+    .ts-dropdown.arama-dropdown .option.selected { color: rgb(var(--c-acc-400)); font-weight: 600; }
+    .ts-dropdown.arama-dropdown .optgroup-header {
+        background: transparent; color: rgb(var(--c-alu-500)); font-size: 0.6875rem; font-weight: 600;
+        letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 12px 4px;
+    }
+    .ts-dropdown.arama-dropdown .optgroup + .optgroup { border-top: 1px solid rgb(var(--c-anth-700)); margin-top: 4px; }
+    .ts-dropdown.arama-dropdown .optgroup .option { padding-left: 20px; }
+    .ts-dropdown.arama-dropdown .highlight { background: rgb(var(--c-acc-500) / 0.22); color: rgb(var(--c-ink)); border-radius: 2px; }
+    .ts-dropdown.arama-dropdown .no-results { padding: 12px; color: rgb(var(--c-alu-500)); font-size: 0.875rem; }
+    .ts-dropdown.arama-dropdown .parca-no { margin-left: 6px; color: rgb(var(--c-alu-500)); font-size: 0.75rem; font-family: ui-monospace, monospace; }
+    .ts-dropdown.arama-dropdown .option.active .parca-no { color: rgb(var(--c-alu-300)); }
+</style>
+
+<form id="arama-bar" action="{% url 'arama' %}" method="get"
+      data-urunler-url="{% url 'arama_urunler' %}"
+      data-secili-model="{{ secili.model }}"
+      class="arama-bar relative z-30 grid gap-2 sm:grid-cols-2 lg:grid-cols-[repeat(4,minmax(0,1fr))_auto] lg:gap-2.5">
+    {# z-30: alanların açılır menüleri, alttaki parça kodu satırının (z-10) üstünde kalsın. #}
+
+    <div data-segment class="group flex min-w-0 items-center gap-3 rounded-lg bg-anthracite-950 px-3.5 py-3 ring-1 ring-inset ring-black/[0.06] transition-shadow hover:ring-accent-500/40 focus-within:ring-2 focus-within:ring-accent-500 dark:bg-anthracite-900 dark:ring-white/[0.06] lg:px-4 lg:py-3.5">
+        <span class="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-accent-500/10 lg:hidden xl:grid text-accent-500 ring-1 ring-inset ring-accent-500/20 transition-colors group-data-[dolu=true]:bg-accent-500 group-data-[dolu=true]:text-on-accent group-data-[dolu=true]:ring-accent-500" aria-hidden="true">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+        </span>
+        <div class="min-w-0 flex-1">
+            <label for="arama-marka" class="block text-caption font-semibold uppercase tracking-wider text-aluminium-500">{% trans "Marka" %}</label>
+            <select id="arama-marka" name="marka" data-alan="marka">
+                <option value="">{% trans "Tüm markalar" %}</option>
+                {% for marka in NAVBAR_MARKALAR %}
+                <option value="{{ marka.slug }}" {% if secili.marka == marka.slug %}selected{% endif %}>{{ marka.ad }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div data-segment class="group flex min-w-0 items-center gap-3 rounded-lg bg-anthracite-950 px-3.5 py-3 ring-1 ring-inset ring-black/[0.06] transition-shadow hover:ring-accent-500/40 focus-within:ring-2 focus-within:ring-accent-500 dark:bg-anthracite-900 dark:ring-white/[0.06] lg:px-4 lg:py-3.5">
+        <span class="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-accent-500/10 lg:hidden xl:grid text-accent-500 ring-1 ring-inset ring-accent-500/20 transition-colors group-data-[dolu=true]:bg-accent-500 group-data-[dolu=true]:text-on-accent group-data-[dolu=true]:ring-accent-500" aria-hidden="true">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+        </span>
+        <div class="min-w-0 flex-1">
+            <label for="arama-model" class="block text-caption font-semibold uppercase tracking-wider text-aluminium-500">{% trans "Model" %}</label>
+            <select id="arama-model" name="model" data-alan="model">
+                <option value="">{% trans "Önce marka seçin" %}</option>
+            </select>
+            {# Tüm modeller; seçilen markanınkiler buradan okunup Tom Select'e veriliyor. #}
+            <select data-tum-modeller hidden aria-hidden="true" tabindex="-1">
+                {% for marka in NAVBAR_MARKALAR %}{% for model in marka.modeller.all %}
+                <option value="{{ model.slug }}" data-marka="{{ marka.slug }}">{{ model.ad }}</option>
+                {% endfor %}{% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div data-segment class="group flex min-w-0 items-center gap-3 rounded-lg bg-anthracite-950 px-3.5 py-3 ring-1 ring-inset ring-black/[0.06] transition-shadow hover:ring-accent-500/40 focus-within:ring-2 focus-within:ring-accent-500 dark:bg-anthracite-900 dark:ring-white/[0.06] lg:px-4 lg:py-3.5">
+        <span class="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-accent-500/10 lg:hidden xl:grid text-accent-500 ring-1 ring-inset ring-accent-500/20 transition-colors group-data-[dolu=true]:bg-accent-500 group-data-[dolu=true]:text-on-accent group-data-[dolu=true]:ring-accent-500" aria-hidden="true">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+        </span>
+        <div class="min-w-0 flex-1">
+            <label for="arama-kategori" class="block text-caption font-semibold uppercase tracking-wider text-aluminium-500">{% trans "Kategori" %}</label>
+            <select id="arama-kategori" name="kategori" data-alan="kategori">
+                <option value="">{% trans "Tüm kategoriler" %}</option>
+                {% for kategori in NAVBAR_KATEGORILER %}
+                {% with alt_kategoriler=kategori.alt_kategoriler.all %}
+                {% if alt_kategoriler %}
+                <optgroup label="{{ kategori.ad }}">
+                    <option value="{{ kategori.slug }}" {% if secili.kategori == kategori.slug %}selected{% endif %}>{% blocktrans with ad=kategori.ad %}{{ ad }} (tümü){% endblocktrans %}</option>
+                    {% for alt in alt_kategoriler %}
+                    <option value="{{ alt.slug }}" {% if secili.kategori == alt.slug %}selected{% endif %}>{{ alt.ad }}</option>
+                    {% endfor %}
+                </optgroup>
+                {% else %}
+                <option value="{{ kategori.slug }}" {% if secili.kategori == kategori.slug %}selected{% endif %}>{{ kategori.ad }}</option>
+                {% endif %}
+                {% endwith %}
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div data-segment class="group flex min-w-0 items-center gap-3 rounded-lg bg-anthracite-950 px-3.5 py-3 ring-1 ring-inset ring-black/[0.06] transition-shadow hover:ring-accent-500/40 focus-within:ring-2 focus-within:ring-accent-500 dark:bg-anthracite-900 dark:ring-white/[0.06] lg:px-4 lg:py-3.5">
+        <span class="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-accent-500/10 lg:hidden xl:grid text-accent-500 ring-1 ring-inset ring-accent-500/20 transition-colors group-data-[dolu=true]:bg-accent-500 group-data-[dolu=true]:text-on-accent group-data-[dolu=true]:ring-accent-500" aria-hidden="true">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </span>
+        <div class="min-w-0 flex-1">
+            <label for="arama-urun" class="block text-caption font-semibold uppercase tracking-wider text-aluminium-500">{% trans "Ürün" %}</label>
+            <select id="arama-urun" name="urun" data-alan="urun">
+                <option value="">{% trans "Tüm ürünler" %}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="sm:col-span-2 lg:col-span-1">
+        <button type="submit" class="group/ara inline-flex h-12 w-full items-center justify-center gap-2.5 rounded-lg bg-gradient-to-b from-accent-500 to-accent-600 px-8 text-button text-on-accent shadow-lg shadow-accent-500/30 outline-none ring-1 ring-inset ring-white/10 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent-500/40 focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-anthracite-900 active:translate-y-0 lg:h-full lg:min-h-[3.75rem]">
+            <svg class="h-[1.125rem] w-[1.125rem] transition-transform duration-300 group-hover/ara:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.25" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" />
+            </svg>
+            {% trans "Ara" %}
+        </button>
+    </div>
+</form>
+
+{% trans "Tüm modeller" as tum_modeller_metni %}
+{% trans "Önce marka seçin" as once_marka_metni %}
+{% trans "Tüm ürünler" as tum_urunler_metni %}
+{% trans "Sonuç bulunamadı" as sonuc_yok_metni %}
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+<script>
+(function () {
+    var form = document.getElementById("arama-bar");
+    if (!form || typeof TomSelect === "undefined") return;
+
+    var METIN = {
+        tumModeller: "{{ tum_modeller_metni|escapejs }}",
+        onceMarka: "{{ once_marka_metni|escapejs }}",
+        tumUrunler: "{{ tum_urunler_metni|escapejs }}",
+        sonucYok: "{{ sonuc_yok_metni|escapejs }}"
+    };
+    function kacis(s) {
+        var d = document.createElement("div"); d.textContent = s == null ? "" : s; return d.innerHTML;
+    }
+
+    function olustur(alan, ekRender, ekAyarlar) {
+        var ayarlar = Object.assign({
+            allowEmptyOption: true,
+            maxOptions: 500,
+            dropdownClass: "ts-dropdown arama-dropdown",
+            render: Object.assign({
+                no_results: function () { return '<div class="no-results">' + kacis(METIN.sonucYok) + "</div>"; }
+            }, ekRender || {}),
+            onChange: function () { dolulukGuncelle(); },
+            // Açılınca arama kutusunda mevcut değer soluk ipucu olarak dursun.
+            // (Tom Select açılışta placeholder'ı kendisi sıfırladığı için ertelendi.)
+            onDropdownOpen: function () {
+                var ts = this;
+                setTimeout(function () {
+                    var secenek = ts.options[ts.getValue()];
+                    ts.control_input.placeholder = secenek ? secenek.text : "";
+                }, 0);
+            }
+        }, ekAyarlar || {});
+        return new TomSelect(form.querySelector("[data-alan=" + alan + "]"), ayarlar);
+    }
+
+    var marka = olustur("marka");
+    var model = olustur("model");
+    var kategori = olustur("kategori");
+    // Ürün listesinde parça numarasıyla da aranabilsin.
+    var urun = olustur("urun", {
+        option: function (veri) {
+            var no = veri.parca_numarasi ? '<span class="parca-no">' + kacis(veri.parca_numarasi) + "</span>" : "";
+            return "<div>" + kacis(veri.text) + no + "</div>";
+        }
+    }, { searchField: ["text", "parca_numarasi"] });
+
+    var tumModeller = Array.prototype.map.call(
+        form.querySelectorAll("[data-tum-modeller] option"),
+        function (o) { return { value: o.value, text: o.textContent, marka: o.dataset.marka }; }
+    );
+    var istekNo = 0;
+
+    function dolulukGuncelle() {
+        form.querySelectorAll("[data-segment]").forEach(function (seg) {
+            var s = seg.querySelector("select[data-alan]");
+            seg.dataset.dolu = s && s.value ? "true" : "false";
+        });
+    }
+
+    function secenekleriYenile(ts, ilkMetin, secenekler, secili) {
+        ts.clear(true);
+        ts.clearOptions();
+        ts.addOption({ value: "", text: ilkMetin });
+        ts.addOptions(secenekler);
+        ts.refreshOptions(false);
+        ts.setValue(secili || "", true);
+    }
+
+    function modelleriDoldur(seciliModel) {
+        if (!marka.getValue()) {
+            secenekleriYenile(model, METIN.onceMarka, [], "");
+            model.disable();
+        } else {
+            secenekleriYenile(model, METIN.tumModeller, tumModeller.filter(function (m) {
+                return m.marka === marka.getValue();
+            }), seciliModel);
+            model.enable();
+        }
+        dolulukGuncelle();
+    }
+
+    function urunleriDoldur() {
+        var no = ++istekNo;
+        var params = new URLSearchParams();
+        [["marka", marka], ["model", model], ["kategori", kategori]].forEach(function (c) {
+            if (c[1].getValue()) params.set(c[0], c[1].getValue());
+        });
+        urun.lock();
+        fetch(form.dataset.urunlerUrl + "?" + params.toString())
+            .then(function (r) { return r.json(); })
+            .then(function (veri) {
+                if (no !== istekNo) return; // bu arada daha yeni bir seçim yapıldı
+                secenekleriYenile(urun, METIN.tumUrunler, veri.urunler.map(function (u) {
+                    return { value: u.slug, text: u.ad, parca_numarasi: u.parca_numarasi };
+                }), "");
+                dolulukGuncelle();
+            })
+            .finally(function () { if (no === istekNo) urun.unlock(); });
+    }
+
+    marka.on("change", function () { modelleriDoldur(""); urunleriDoldur(); });
+    model.on("change", urunleriDoldur);
+    kategori.on("change", urunleriDoldur);
+
+    // Boş alanları URL'ye "?marka=&model=" diye eklemeden git.
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var params = new URLSearchParams();
+        [["marka", marka], ["model", model], ["kategori", kategori], ["urun", urun]].forEach(function (c) {
+            if (c[1].getValue()) params.set(c[0], c[1].getValue());
+        });
+        var sorgu = params.toString();
+        window.location.href = form.action + (sorgu ? "?" + sorgu : "");
+    });
+
+    modelleriDoldur(form.dataset.seciliModel);
+    urunleriDoldur();
+})();
+</script>

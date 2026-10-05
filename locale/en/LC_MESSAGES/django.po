@@ -167,3 +167,211 @@ msgstr "All compatible spare parts for %(marka_adi)s."
 #: templates/base.html
 msgid "Tümünü gör"
 msgstr "View all"
+
+msgid "Sayfa yolu"
+msgstr "Breadcrumb"
+
+msgid "Parça Markası"
+msgstr "Part Brand"
+
+msgid "Parça Numarası"
+msgstr "Part Number"
+
+msgid "Araç Markası / Modeli"
+msgstr "Vehicle Make / Model"
+
+msgid "Uyumluluk Yılları"
+msgstr "Compatible Years"
+
+msgid "Kategori"
+msgstr "Category"
+
+msgid "Genel Özellikler"
+msgstr "Specifications"
+
+msgid "Uyumlu Araçlar"
+msgstr "Compatible Vehicles"
+
+msgid "Marka"
+msgstr "Make"
+
+msgid "Model"
+msgstr "Model"
+
+msgid "Versiyon"
+msgstr "Version"
+
+msgid "Motor Hacmi"
+msgstr "Engine Size"
+
+msgid "Kasa Tipi"
+msgstr "Body Type"
+
+msgid "Yıl Aralığı"
+msgstr "Year Range"
+
+msgid "Bu ürün için henüz uyumlu araç bilgisi girilmedi."
+msgstr ""
+"No compatible vehicle information has been added for this product yet."
+
+msgid "Sedan"
+msgstr "Sedan"
+
+msgid "Hatchback"
+msgstr "Hatchback"
+
+msgid "Station Wagon"
+msgstr "Estate"
+
+msgid "SUV"
+msgstr "SUV"
+
+msgid "Coupe"
+msgstr "Coupe"
+
+msgid "Cabrio"
+msgstr "Convertible"
+
+msgid "Pickup"
+msgstr "Pickup"
+
+msgid "Panelvan"
+msgstr "Panel Van"
+
+msgid "Minibüs"
+msgstr "Minibus"
+
+msgid "Kamyonet"
+msgstr "Light Truck"
+
+msgid "Tüm markalar"
+msgstr "All makes"
+
+msgid "Önce marka seçin"
+msgstr "Select a make first"
+
+msgid "Tüm modeller"
+msgstr "All models"
+
+msgid "Tüm kategoriler"
+msgstr "All categories"
+
+#, python-format
+msgid "%(ad)s (tümü)"
+msgstr "%(ad)s (all)"
+
+msgid "Ürün"
+msgstr "Product"
+
+msgid "Tüm ürünler"
+msgstr "All products"
+
+msgid "Ara"
+msgstr "Search"
+
+msgid "Aracınıza uygun parçayı bulun"
+msgstr "Find the right part for your vehicle"
+
+msgid "Parça Ara"
+msgstr "Find Parts"
+
+msgid ""
+"Aracınızın markasını, modelini ve aradığınız parçanın kategorisini seçin."
+msgstr ""
+"Select your vehicle's make and model and the category of the part you need."
+
+#, python-format
+msgid "Bulunan ürün: %(sayi)s"
+msgstr "Products found: %(sayi)s"
+
+msgid ""
+"Seçimlerinize uygun ürün bulunamadı. Filtrelerden birini kaldırarak tekrar "
+"deneyin."
+msgstr "No products match your selection. Try removing one of the filters."
+
+msgid "Sonuç bulunamadı"
+msgstr "No results"
+
+msgid "Tüm kategorilere göz atın"
+msgstr "Browse all categories"
+
+msgid "Aradığınızı bulamadınız mı?"
+msgstr "Can't find what you need?"
+
+msgid "Bize ulaşın"
+msgstr "Contact us"
+
+msgid "Filtreleri temizle"
+msgstr "Clear filters"
+
+msgid "Temayı değiştir"
+msgstr "Toggle theme"
+
+msgid "Parça kodunu biliyor musunuz?"
+msgstr "Know the part number?"
+
+msgid "Parça kodu veya ürün adı, ör. BP-123"
+msgstr "Part number or product name, e.g. BP-123"
+
+msgid "Kodla Ara"
+msgstr "Search by number"
+
+#, python-format
+msgid "“%(kod)s” için bulunan ürün: %(sayi)s"
+msgstr "Products found for “%(kod)s”: %(sayi)s"
+
+#, python-format
+msgid "“%(kod)s” koduyla eşleşen ürün bulunamadı."
+msgstr "No product matches “%(kod)s”."
+
+msgid "Kodu kontrol edip tekrar deneyin ya da"
+msgstr "Check the number and try again, or"
+
+msgid "bize ulaşın"
+msgstr "contact us"
+
+msgid "Parça kodu ile ara"
+msgstr "Search by part number"
+
+msgid "ör. BP-123"
+msgstr "e.g. BP-123"
+
+msgid "WhatsApp'tan yazın"
+msgstr "Message us on WhatsApp"
+
+msgid "isteğe bağlı"
+msgstr "optional"
+
+msgid "Mesajınız alındı. En kısa sürede size dönüş yapacağız."
+msgstr "Your message has been received. We'll get back to you shortly."
+
+msgid "Bu bölümün içeriği yakında eklenecek."
+msgstr "Content for this section is coming soon."
+
+msgid "Sizin için doğru parçayı birlikte bulalım."
+msgstr "Let's find the right part for you together."
+
+msgid "Sorularınız için ekibimize ulaşın."
+msgstr "Contact our team with any questions."
+
+#, python-format
+msgid "%(no)s. fotoğraf"
+msgstr "Photo %(no)s"
+
+msgid "Aracınızı seçin ya da parça kodunu yazın."
+msgstr "Select your vehicle or enter a part number."
+
+msgid "veya"
+msgstr "or"
+
+msgid "Tümü"
+msgstr "All"
+
+msgid "Ürünleri gör"
+msgstr "View products"
+
+msgid "Bu kategoride henüz ürün bulunmuyor."
+msgstr "There are no products in this category yet."
+
+msgid "Aradığınız parça için"
+msgstr "For the part you need,"

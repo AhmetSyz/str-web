@@ -1,39 +1,45 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Kategoriler" %} | MARKA{% endblock %}
+{% block title %}{{ sayfa.baslik }} | {{ SITE.site_adi }}{% endblock %}
 
 {% block content %}
 
-    {% trans "Kategoriler" as page_title %}
-    {% blocktrans asvar page_subtitle %}Aracınız için doğru parçayı bulmak üzere bir kategori seçin.{% endblocktrans %}
-    {% include "partials/page_header.html" with title=page_title subtitle=page_subtitle %}
+    {% include "partials/page_header.html" %}
 
     <section class="mx-auto max-w-[1440px] px-6 py-16 lg:px-10 lg:py-24">
         {% if kategoriler %}
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {% for kategori in kategoriler %}
-            <div id="{{ kategori.slug }}" class="scroll-mt-24 overflow-hidden rounded-lg border border-anthracite-700 bg-anthracite-900 lg:scroll-mt-28">
+            {# Kartın tamamı kategori sayfasına gider (başlıktaki linkin ::after'ı kartı kaplar); alt kategori etiketleri onun üstünde kendi sayfalarına gider. #}
+            <div id="{{ kategori.slug }}" class="group relative flex scroll-mt-24 flex-col overflow-hidden rounded-lg border border-anthracite-700 bg-anthracite-900 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-500 hover:shadow-xl hover:shadow-accent-900/10 focus-within:border-accent-500 dark:hover:shadow-black/40 lg:scroll-mt-28">
                 <div class="aspect-[16/10] overflow-hidden bg-anthracite-800">
-                    <img src="{{ kategori.gorsel.url }}" alt="{{ kategori.ad }}" class="h-full w-full object-cover">
+                    <img src="{{ kategori.gorsel.url }}" alt="" class="h-full w-full object-cover">
                 </div>
-                    <div class="p-5">
-                        <h2 class="font-display text-h5 font-semibold text-white">{{ kategori.ad }}</h2>
+                <div class="flex flex-1 flex-col p-5">
+                    <h2 class="font-display text-h5 font-semibold text-white">
+                        <a href="{{ kategori.get_absolute_url }}" class="outline-none after:absolute after:inset-0 after:content-[''] focus-visible:underline">{{ kategori.ad }}</a>
+                    </h2>
 
-                        {% if kategori.aciklama %}
-                        <p class="mt-2 text-body-sm text-aluminium-400">{{ kategori.aciklama }}</p>
-                        {% endif %}
+                    {% if kategori.aciklama %}
+                    <p class="mt-2 text-body-sm text-aluminium-400">{{ kategori.aciklama }}</p>
+                    {% endif %}
 
-                        {% if kategori.alt_kategoriler.all %}
-                        <ul class="mt-4 flex flex-wrap gap-2">
-                            {% for alt in kategori.alt_kategoriler.all %}
-                            <li class="rounded-full border border-anthracite-700 px-3 py-1 text-caption text-aluminium-300">
-                                {{ alt.ad }}
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </div>
+                    {% if kategori.alt_kategoriler.all %}
+                    <ul class="mt-4 flex flex-wrap gap-2">
+                        {% for alt in kategori.alt_kategoriler.all %}
+                        <li>
+                            <a href="{{ alt.get_absolute_url }}" class="relative z-10 block rounded-full border border-anthracite-700 px-3 py-1 text-caption text-aluminium-300 outline-none transition-colors hover:border-accent-500 hover:text-white focus-visible:ring-2 focus-visible:ring-accent-500">{{ alt.ad }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    <span class="mt-auto inline-flex items-center gap-1.5 pt-5 text-body-sm font-medium text-accent-500 dark:text-accent-400" aria-hidden="true">
+                        {% trans "Ürünleri gör" %}
+                        <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </span>
+                </div>
             </div>
             {% endfor %}
         </div>

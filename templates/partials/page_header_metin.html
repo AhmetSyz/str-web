@@ -1,0 +1,11 @@
+{# page_header.html'in başlık/alt başlık kısmı (fotoğraflı ve fotoğrafsız düzende ortak). #}
+{% if not title and sayfa.ust_baslik %}
+<p class="fade-in-down mb-3 text-caption font-semibold uppercase tracking-[0.14em] {% if foto_uzerinde %}text-accent-300{% else %}text-accent-500 dark:text-accent-400{% endif %}">{{ sayfa.ust_baslik }}</p>
+{% endif %}
+<h1 class="slide-in-left font-display text-h3 font-semibold tracking-tight sm:text-h2 {% if foto_uzerinde %}text-on-accent drop-shadow-sm{% else %}text-white{% endif %}">
+    {% if title %}{{ title }}{% else %}{{ sayfa.baslik }}{% if sayfa.baslik_vurgu %} <span class="{% if foto_uzerinde %}text-accent-300{% else %}text-accent-500 dark:text-accent-400{% endif %}">{{ sayfa.baslik_vurgu }}</span>{% endif %}{% endif %}
+</h1>
+{# (|default:sayfa.alt_baslik kullanılmıyor: filtre argümanı olan değişken yoksa Django hata verir; marka sayfasında `sayfa` yok.) #}
+{% if subtitle or sayfa.alt_baslik %}
+<p class="slide-in-right mt-3 max-w-2xl whitespace-pre-line text-body-sm lg:text-body {% if foto_uzerinde %}text-on-accent/85{% else %}text-aluminium-300{% endif %}">{% if subtitle %}{{ subtitle }}{% else %}{{ sayfa.alt_baslik }}{% endif %}</p>
+{% endif %}

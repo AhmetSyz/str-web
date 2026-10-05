@@ -4,56 +4,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}MARKA{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}{% blocktrans %}MARKA — kaliteli ürünler ve güvenilir hizmet.{% endblocktrans %}{% endblock %}">
+    <title>{% block title %}{{ SITE.site_adi }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ SITE.meta_aciklama }}{% endblock %}">
+    {% if SITE.favicon %}<link rel="icon" href="{{ SITE.favicon.url }}">{% endif %}
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&display=swap">
 
+    {# Tema, sayfa çizilmeden önce belirlenir; aksi halde açık temada bir an koyu tema görünür (flash). #}
+    <script>
+        (function () {
+            var kayitli = null;
+            try { kayitli = localStorage.getItem("tema"); } catch (e) {}
+            var koyu = kayitli ? kayitli === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+            document.documentElement.classList.toggle("dark", koyu);
+        })();
+    </script>
+    <style>
+        /*
+         * Renkler tema başına CSS değişkeni (RGB) olarak tanımlı; Tailwind
+         * sınıfları (bg-anthracite-900, text-accent-500 ...) bunları kullanır.
+         * Kurumsal renkler lacivert + beyaz: açık temada beyaz zemin + lacivert
+         * vurgu, koyu temada lacivert zemin + beyaz yazı + parlak mavi vurgu.
+         *  - anthracite: zeminler (950 sayfa, 900 kart, 800 görsel zemini, 700 kenarlık)
+         *  - aluminium: ikincil yazılar (100 en güçlü ... 700 en soluk)
+         *  - white:     en güçlü ön plan rengi (koyu temada beyaz, açık temada koyu lacivert);
+         *               bg-white/5, border-white/10 gibi hafif katmanlar da buna göre döner
+         *  - accent:    marka rengi (buton, link, odak halkası)
+         *  - on-accent: accent zemin üstündeki yazı; her iki temada beyaz
+         */
+        :root {
+            color-scheme: light;
+            --c-anth-950: 244 246 250; --c-anth-900: 255 255 255; --c-anth-800: 234 239 246;
+            --c-anth-700: 217 225 237; --c-anth-600: 196 207 224;
+            --c-alu-50: 8 17 38;     --c-alu-100: 13 24 48;   --c-alu-200: 28 41 69;
+            --c-alu-300: 52 66 96;   --c-alu-400: 79 94 122;  --c-alu-500: 104 118 143;
+            --c-alu-600: 136 148 169; --c-alu-700: 168 178 196;
+            --c-ink: 11 22 46;
+            --c-acc-50: 238 243 252; --c-acc-100: 220 230 248; --c-acc-200: 186 205 240;
+            --c-acc-300: 139 168 225; --c-acc-400: 63 101 178; --c-acc-500: 27 54 113;
+            --c-acc-600: 20 41 89;   --c-acc-700: 15 31 69;   --c-acc-800: 10 22 50; --c-acc-900: 6 14 33;
+        }
+        :root.dark {
+            color-scheme: dark;
+            --c-anth-950: 7 13 26;   --c-anth-900: 12 21 40;  --c-anth-800: 20 32 56;
+            --c-anth-700: 31 46 76;  --c-anth-600: 43 61 96;
+            --c-alu-50: 245 247 251; --c-alu-100: 230 235 243; --c-alu-200: 206 214 227;
+            --c-alu-300: 174 185 203; --c-alu-400: 133 146 168; --c-alu-500: 102 115 138;
+            --c-alu-600: 78 90 111;  --c-alu-700: 58 68 88;
+            --c-ink: 255 255 255;
+            --c-acc-50: 240 245 253; --c-acc-100: 222 232 250; --c-acc-200: 186 205 245;
+            --c-acc-300: 141 173 238; --c-acc-400: 102 144 230; --c-acc-500: 59 107 212;
+            --c-acc-600: 47 89 184;  --c-acc-700: 36 70 148;  --c-acc-800: 27 54 113; --c-acc-900: 15 31 69;
+        }
+    </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        function renk(ad) { return "rgb(var(--" + ad + ") / <alpha-value>)"; }
         tailwind.config = {
+            darkMode: "class",
             theme: {
                 extend: {
                     colors: {
                         anthracite: {
-                            950: '#0A0B0D',
-                            900: '#111315',
-                            800: '#1E2226',
-                            700: '#2A2F35',
-                            600: '#383E46',
+                            950: renk("c-anth-950"), 900: renk("c-anth-900"), 800: renk("c-anth-800"),
+                            700: renk("c-anth-700"), 600: renk("c-anth-600"),
                         },
                         aluminium: {
-                            50:  '#F4F5F7',
-                            100: '#E7E9EC',
-                            200: '#D2D6DB',
-                            300: '#B2B8C0',
-                            400: '#8A929C',
-                            500: '#6A7480',
-                            600: '#525A64',
-                            700: '#3D444C',
+                            50: renk("c-alu-50"), 100: renk("c-alu-100"), 200: renk("c-alu-200"),
+                            300: renk("c-alu-300"), 400: renk("c-alu-400"), 500: renk("c-alu-500"),
+                            600: renk("c-alu-600"), 700: renk("c-alu-700"),
                         },
-                        paper: '#FAFBFC',
-                        bronze: {
-                            50:  '#FEF2F2',
-                            100: '#FEE2E2',
-                            200: '#FECACA',
-                            300: '#FCA5A5',
-                            400: '#F87171',
-                            500: '#DC2626',
-                            600: '#B91C1C',
-                            700: '#991B1B',
-                            800: '#7F1D1D',
-                            900: '#450A0A',
-                        },
-                        cobalt: {
-                            50:  '#FEF2F2',
-                            100: '#FEE2E2',
-                            300: '#FCA5A5',
-                            500: '#EF4444',
-                            700: '#B91C1C',
-                            900: '#7F1D1D',
+                        white: renk("c-ink"),
+                        "on-accent": "#FFFFFF",
+                        // Ürün fotoğraflarının zemini: her iki temada saf beyaz, ki şeffaf
+                        // PNG'ler ve ürün renkleri tema renginden etkilenmesin.
+                        "foto-zemin": "#FFFFFF",
+                        accent: {
+                            50: renk("c-acc-50"), 100: renk("c-acc-100"), 200: renk("c-acc-200"),
+                            300: renk("c-acc-300"), 400: renk("c-acc-400"), 500: renk("c-acc-500"),
+                            600: renk("c-acc-600"), 700: renk("c-acc-700"), 800: renk("c-acc-800"),
+                            900: renk("c-acc-900"),
                         },
                     },
                     fontFamily: {
@@ -116,23 +148,27 @@
         .slide-in-left  { animation: slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
         .slide-in-right { animation: slideInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
         .slide-in-up    { animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both; }
+        @media (prefers-reduced-motion: reduce) {
+            .fade-in-down, .slide-in-left, .slide-in-right, .slide-in-up { animation: none; }
+        }
     </style>
     {% block extra_head %}{% endblock %}
 </head>
 <body class="flex min-h-screen flex-col bg-anthracite-950 font-sans text-aluminium-100 antialiased has-[#mobile-menu-toggle:checked]:overflow-hidden">
 
-    <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-anthracite-950/80 shadow-md backdrop-blur-glass">
-        <nav aria-label="Primary" class="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 lg:h-20 lg:px-10">
+    <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-anthracite-950/95 shadow-md backdrop-blur-glass">
+        <nav aria-label="Primary" class="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-6 px-6 lg:h-20 lg:px-10">
 
-            <a href="{% url 'index' %}" class="shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-bronze-500">
-                <span class="font-display text-h5 font-semibold tracking-tight text-white">MARKA<span class="text-bronze-500">.</span></span>
+            <a href="{% url 'index' %}" class="shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-accent-500">
+                {% include "partials/logo.html" %}
             </a>
 
-            <ul class="hidden items-center gap-8 lg:flex">
+            <ul class="hidden items-center gap-6 xl:gap-8 lg:flex">
+                <li><a href="{% url 'index' %}" class="text-body-sm font-medium outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500 {% if request.resolver_match.url_name == 'index' %}text-accent-500 dark:text-accent-400{% else %}text-aluminium-100{% endif %}">{% trans "Anasayfa" %}</a></li>
                 <li class="group relative">
-                    <button type="button" class="flex items-center gap-1 text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                    <button type="button" class="flex items-center gap-1 text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">
                         {% trans "Markalar" %}
-                        <svg class="h-4 w-4 transition-transform duration-300 group-hover:rotate-180 group-hover:text-bronze-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <svg class="h-4 w-4 transition-transform duration-300 group-hover:rotate-180 group-hover:text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
@@ -142,7 +178,7 @@
                         {% if modeller %}
                         {# Kategorilerdeki gibi: panel overflow-y-auto olduğu için modeller panelin içinde akordeon olarak açılıyor. #}
                         <details class="group/alt">
-                            <summary class="flex cursor-pointer list-none items-center gap-3 rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500 [&::-webkit-details-marker]:hidden marker:content-none">
+                            <summary class="flex cursor-pointer list-none items-center gap-3 rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-accent-500 [&::-webkit-details-marker]:hidden marker:content-none">
                                 {% if marka.logo %}
                                 <img src="{{ marka.logo.url }}" alt="" class="h-6 w-6 shrink-0 rounded-full bg-white/5 object-contain">
                                 {% else %}
@@ -154,14 +190,14 @@
                                 </svg>
                             </summary>
                             <div class="mb-1 ml-[2.75rem] flex flex-col border-l border-white/10">
-                                <a href="{% url 'marka_urunleri' marka.slug %}" class="rounded px-3 py-2 text-body-sm font-medium text-bronze-500 outline-none transition-colors hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Tümünü gör" %}</a>
+                                <a href="{% url 'marka_urunleri' marka.slug %}" class="rounded px-3 py-2 text-body-sm font-medium text-accent-500 outline-none transition-colors hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Tümünü gör" %}</a>
                                 {% for model in modeller %}
-                                <a href="{% url 'marka_urunleri' marka.slug %}?model={{ model.slug }}" class="rounded px-3 py-2 text-body-sm text-aluminium-300 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">{{ model.ad }}</a>
+                                <a href="{% url 'marka_urunleri' marka.slug %}?model={{ model.slug }}" class="rounded px-3 py-2 text-body-sm text-aluminium-300 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-accent-500">{{ model.ad }}</a>
                                 {% endfor %}
                             </div>
                         </details>
                         {% else %}
-                        <a href="{% url 'marka_urunleri' marka.slug %}" class="flex items-center gap-3 rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">
+                        <a href="{% url 'marka_urunleri' marka.slug %}" class="flex items-center gap-3 rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-accent-500">
                             {% if marka.logo %}
                             <img src="{{ marka.logo.url }}" alt="" class="h-6 w-6 shrink-0 rounded-full bg-white/5 object-contain">
                             {% else %}
@@ -177,9 +213,9 @@
                     </div>
                 </li>
                 <li class="group relative">
-                    <button type="button" class="flex items-center gap-1 text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                    <button type="button" class="flex items-center gap-1 text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">
                         {% trans "Kategoriler" %}
-                        <svg class="h-4 w-4 transition-transform duration-300 group-hover:rotate-180 group-hover:text-bronze-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <svg class="h-4 w-4 transition-transform duration-300 group-hover:rotate-180 group-hover:text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
@@ -189,7 +225,7 @@
                         {% if alt_kategoriler %}
                         {# Panel overflow-y-auto olduğu için yana açılan bir flyout kırpılırdı; alt kategoriler panelin içinde akordeon olarak açılıyor. #}
                         <details class="group/alt">
-                            <summary class="flex cursor-pointer list-none items-center gap-3 rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500 [&::-webkit-details-marker]:hidden marker:content-none">
+                            <summary class="flex cursor-pointer list-none items-center gap-3 rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-accent-500 [&::-webkit-details-marker]:hidden marker:content-none">
                                 <img src="{{ kategori.gorsel.url }}" alt="" class="h-8 w-8 shrink-0 rounded object-cover">
                                 <span class="flex-1">{{ kategori.ad }}</span>
                                 <svg class="h-4 w-4 shrink-0 text-aluminium-500 transition-transform duration-300 group-open/alt:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -197,14 +233,14 @@
                                 </svg>
                             </summary>
                             <div class="mb-1 ml-[3.25rem] flex flex-col border-l border-white/10">
-                                <a href="{% url 'kategoriler' %}#{{ kategori.slug }}" class="rounded px-3 py-2 text-body-sm font-medium text-bronze-500 outline-none transition-colors hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Tümünü gör" %}</a>
+                                <a href="{{ kategori.get_absolute_url }}" class="rounded px-3 py-2 text-body-sm font-medium text-accent-500 outline-none transition-colors hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Tümünü gör" %}</a>
                                 {% for alt in alt_kategoriler %}
-                                <a href="{% url 'kategoriler' %}#{{ kategori.slug }}" class="rounded px-3 py-2 text-body-sm text-aluminium-300 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">{{ alt.ad }}</a>
+                                <a href="{{ alt.get_absolute_url }}" class="rounded px-3 py-2 text-body-sm text-aluminium-300 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-accent-500">{{ alt.ad }}</a>
                                 {% endfor %}
                             </div>
                         </details>
                         {% else %}
-                        <a href="{% url 'kategoriler' %}#{{ kategori.slug }}" class="flex items-center gap-3 rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-bronze-500">
+                        <a href="{{ kategori.get_absolute_url }}" class="flex items-center gap-3 rounded px-4 py-2.5 text-body-sm text-aluminium-200 outline-none transition-colors hover:bg-white/5 hover:text-white focus-visible:ring-2 focus-visible:ring-accent-500">
                             <img src="{{ kategori.gorsel.url }}" alt="" class="h-8 w-8 shrink-0 rounded object-cover">
                             {{ kategori.ad }}
                         </a>
@@ -215,12 +251,29 @@
                         {% endfor %}
                     </div>
                 </li>
-                <li><a href="#" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Projeler" %}</a></li>
-                <li><a href="#" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Kurumsal" %}</a></li>
-                <li><a href="{% url 'iletisim' %}" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "İletişim" %}</a></li>
+                <li><a href="{% url 'kurumsal' %}" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Kurumsal" %}</a></li>
+                <li><a href="{% url 'iletisim' %}" class="text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "İletişim" %}</a></li>
 
                 <li class="group relative">
-                    <button type="button" class="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:border-bronze-500 hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                    {# Parça kodu araması: üzerine gelince ya da odaklanınca (klavye/dokunma) açılır; yazarken focus-within sayesinde açık kalır. #}
+                    <button type="button" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-aluminium-200 outline-none transition-colors hover:border-accent-500 hover:text-white focus-visible:ring-2 focus-visible:ring-accent-500 group-focus-within:border-accent-500 group-focus-within:text-white">
+                        <svg class="h-[1.125rem] w-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" /></svg>
+                        <span class="sr-only">{% trans "Parça kodu ile ara" %}</span>
+                    </button>
+                    <div class="invisible absolute right-0 top-full mt-3 w-80 rounded-lg border border-white/10 bg-anthracite-900/95 p-3 opacity-0 shadow-2xl backdrop-blur-glass transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                        <form action="{% url 'arama' %}" method="get" role="search">
+                            <label for="nav-kod-arama" class="block px-1 pb-2 text-caption font-semibold uppercase tracking-wider text-aluminium-500">{% trans "Parça kodu ile ara" %}</label>
+                            <div class="flex gap-2">
+                                <input id="nav-kod-arama" type="search" name="q" required autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="search"
+                                       placeholder="{% trans 'ör. BP-123' %}"
+                                       class="h-10 min-w-0 flex-1 rounded-md border border-white/10 bg-anthracite-950/60 px-3 font-mono text-body-sm tracking-wide text-white outline-none placeholder:font-sans placeholder:tracking-normal placeholder:text-aluminium-500 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/30">
+                                <button type="submit" class="inline-flex h-10 shrink-0 items-center rounded-md bg-accent-500 px-3.5 text-button text-on-accent outline-none transition-colors hover:bg-accent-600 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Ara" %}</button>
+                            </div>
+                        </form>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <button type="button" class="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:border-accent-500 hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">
                         <span aria-hidden="true">{{ LANGUAGE_CODE|flag_for }}</span>
                         {{ LANGUAGE_CODE|upper }}
                         <svg class="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -238,7 +291,7 @@
                             <input type="hidden" name="language" value="{{ lang.code }}">
                             <input type="hidden" name="next" value="{{ lang_next_url }}">
                             <button type="submit"
-                                    class="flex w-full items-center gap-2.5 rounded px-3 py-2 text-body-sm outline-none transition-colors hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-bronze-500 {% if lang.code == LANGUAGE_CODE %}text-white{% else %}text-aluminium-300{% endif %}">
+                                    class="flex w-full items-center gap-2.5 rounded px-3 py-2 text-body-sm outline-none transition-colors hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-accent-500 {% if lang.code == LANGUAGE_CODE %}text-white{% else %}text-aluminium-300{% endif %}">
                                 <span aria-hidden="true">{{ lang.code|flag_for }}</span>
                                 {{ lang.name_local }}
                             </button>
@@ -247,10 +300,18 @@
                         {% endwith %}
                     </div>
                 </li>
+                <li>
+                    <button type="button" data-tema-degistir class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-aluminium-200 outline-none transition-colors hover:border-accent-500 hover:text-white focus-visible:ring-2 focus-visible:ring-accent-500">
+                        <span class="sr-only">{% trans "Temayı değiştir" %}</span>
+                        {# Açık temada ay (koyuya geç), koyu temada güneş (açığa geç). #}
+                        <svg class="h-[1.125rem] w-[1.125rem] dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+                        <svg class="hidden h-[1.125rem] w-[1.125rem] dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+                    </button>
+                </li>
             </ul>
 
             <div class="hidden lg:flex">
-                <a href="{% url 'iletisim' %}" class="inline-flex items-center gap-2 rounded bg-bronze-500 px-5 py-2.5 text-button font-medium text-white shadow-lg shadow-bronze-500/20 outline-none transition-all duration-300 hover:bg-bronze-600 hover:shadow-bronze-500/35 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                <a href="{% url 'iletisim' %}" class="inline-flex items-center gap-2 rounded bg-accent-500 px-5 py-2.5 text-button font-medium text-on-accent shadow-lg shadow-accent-500/20 outline-none transition-all duration-300 hover:bg-accent-600 hover:shadow-accent-500/35 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-accent-500">
                     {% trans "Teklif Al" %}
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -258,12 +319,20 @@
                 </a>
             </div>
 
-            <label for="mobile-menu-toggle" class="inline-flex cursor-pointer items-center justify-center rounded p-2 text-white outline-none focus-visible:ring-2 focus-visible:ring-bronze-500 lg:hidden">
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-                <span class="sr-only">{% trans "Menüyü aç" %}</span>
-            </label>
+            <div class="flex items-center gap-2 lg:hidden">
+                <button type="button" data-tema-degistir class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-aluminium-200 outline-none transition-colors hover:border-accent-500 hover:text-white focus-visible:ring-2 focus-visible:ring-accent-500">
+                    <span class="sr-only">{% trans "Temayı değiştir" %}</span>
+                    {# Açık temada ay (koyuya geç), koyu temada güneş (açığa geç). #}
+                    <svg class="h-[1.125rem] w-[1.125rem] dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+                    <svg class="hidden h-[1.125rem] w-[1.125rem] dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+                </button>
+                <label for="mobile-menu-toggle" class="inline-flex cursor-pointer items-center justify-center rounded p-2 text-white outline-none focus-visible:ring-2 focus-visible:ring-accent-500">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <span class="sr-only">{% trans "Menüyü aç" %}</span>
+                </label>
+            </div>
 
         </nav>
     </header>
@@ -278,8 +347,8 @@
         <label for="mobile-menu-toggle" class="absolute inset-0 bg-anthracite-950/80 backdrop-blur-glass" aria-hidden="true"></label>
         <div class="absolute inset-y-0 right-0 flex w-80 max-w-[85vw] flex-col bg-anthracite-900 shadow-xl">
             <div class="flex items-center justify-between border-b border-white/10 px-6 py-5">
-                <span class="font-display text-h6 font-semibold text-white">MARKA<span class="text-bronze-500">.</span></span>
-                <label for="mobile-menu-toggle" class="cursor-pointer rounded p-2 text-white outline-none focus-visible:ring-2 focus-visible:ring-bronze-500">
+                {% include "partials/logo.html" with boyut="kucuk" %}
+                <label for="mobile-menu-toggle" class="cursor-pointer rounded p-2 text-white outline-none focus-visible:ring-2 focus-visible:ring-accent-500">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -287,8 +356,21 @@
                 </label>
             </div>
             <div class="flex-1 overflow-y-auto px-6 py-4">
+                <form action="{% url 'arama' %}" method="get" role="search" class="mb-2 border-b border-white/10 pb-4">
+                    <label for="mobil-kod-arama" class="block pb-2 text-caption font-semibold uppercase tracking-wider text-aluminium-500">{% trans "Parça kodu ile ara" %}</label>
+                    <div class="flex gap-2">
+                        <input id="mobil-kod-arama" type="search" name="q" required autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="search"
+                               placeholder="{% trans 'ör. BP-123' %}"
+                               class="h-11 min-w-0 flex-1 rounded-md border border-white/10 bg-anthracite-950/60 px-3 font-mono text-body-sm tracking-wide text-white outline-none placeholder:font-sans placeholder:tracking-normal placeholder:text-aluminium-500 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/30">
+                        <button type="submit" class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-accent-500 text-on-accent outline-none transition-colors hover:bg-accent-600 focus-visible:ring-2 focus-visible:ring-accent-500">
+                            <svg class="h-[1.125rem] w-[1.125rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.25" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" /></svg>
+                            <span class="sr-only">{% trans "Ara" %}</span>
+                        </button>
+                    </div>
+                </form>
+                <a href="{% url 'index' %}" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Anasayfa" %}</a>
                 <details class="group border-b border-white/10">
-                    <summary class="flex cursor-pointer list-none items-center justify-between py-3 text-body font-medium text-white outline-none [&::-webkit-details-marker]:hidden marker:content-none focus-visible:ring-2 focus-visible:ring-bronze-500">
+                    <summary class="flex cursor-pointer list-none items-center justify-between py-3 text-body font-medium text-white outline-none [&::-webkit-details-marker]:hidden marker:content-none focus-visible:ring-2 focus-visible:ring-accent-500">
                         {% trans "Markalar" %}
                         <svg class="h-4 w-4 text-aluminium-500 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -299,7 +381,7 @@
                         {% with modeller=marka.modeller.all %}
                         {% if modeller %}
                         <details class="group/alt">
-                            <summary class="flex cursor-pointer list-none items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500 [&::-webkit-details-marker]:hidden marker:content-none">
+                            <summary class="flex cursor-pointer list-none items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500 [&::-webkit-details-marker]:hidden marker:content-none">
                                 {% if marka.logo %}
                                 <img src="{{ marka.logo.url }}" alt="" class="h-6 w-6 shrink-0 rounded-full bg-white/5 object-contain">
                                 {% else %}
@@ -311,14 +393,14 @@
                                 </svg>
                             </summary>
                             <div class="mb-1 ml-3 flex flex-col border-l border-white/10 pl-6">
-                                <a href="{% url 'marka_urunleri' marka.slug %}" class="py-2 text-body-sm font-medium text-bronze-500 outline-none focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Tümünü gör" %}</a>
+                                <a href="{% url 'marka_urunleri' marka.slug %}" class="py-2 text-body-sm font-medium text-accent-500 outline-none focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Tümünü gör" %}</a>
                                 {% for model in modeller %}
-                                <a href="{% url 'marka_urunleri' marka.slug %}?model={{ model.slug }}" class="py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{{ model.ad }}</a>
+                                <a href="{% url 'marka_urunleri' marka.slug %}?model={{ model.slug }}" class="py-2 text-body-sm text-aluminium-300 outline-none hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{{ model.ad }}</a>
                                 {% endfor %}
                             </div>
                         </details>
                         {% else %}
-                        <a href="{% url 'marka_urunleri' marka.slug %}" class="flex items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                        <a href="{% url 'marka_urunleri' marka.slug %}" class="flex items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">
                             {% if marka.logo %}
                             <img src="{{ marka.logo.url }}" alt="" class="h-6 w-6 shrink-0 rounded-full bg-white/5 object-contain">
                             {% else %}
@@ -334,7 +416,7 @@
                     </div>
                 </details>
                 <details class="group border-b border-white/10">
-                    <summary class="flex cursor-pointer list-none items-center justify-between py-3 text-body font-medium text-white outline-none [&::-webkit-details-marker]:hidden marker:content-none focus-visible:ring-2 focus-visible:ring-bronze-500">
+                    <summary class="flex cursor-pointer list-none items-center justify-between py-3 text-body font-medium text-white outline-none [&::-webkit-details-marker]:hidden marker:content-none focus-visible:ring-2 focus-visible:ring-accent-500">
                         {% trans "Kategoriler" %}
                         <svg class="h-4 w-4 text-aluminium-500 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -345,7 +427,7 @@
                         {% with alt_kategoriler=kategori.alt_kategoriler.all %}
                         {% if alt_kategoriler %}
                         <details class="group/alt">
-                            <summary class="flex cursor-pointer list-none items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500 [&::-webkit-details-marker]:hidden marker:content-none">
+                            <summary class="flex cursor-pointer list-none items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500 [&::-webkit-details-marker]:hidden marker:content-none">
                                 <img src="{{ kategori.gorsel.url }}" alt="" class="h-8 w-8 shrink-0 rounded object-cover">
                                 <span class="flex-1">{{ kategori.ad }}</span>
                                 <svg class="h-4 w-4 shrink-0 text-aluminium-500 transition-transform duration-300 group-open/alt:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -353,14 +435,14 @@
                                 </svg>
                             </summary>
                             <div class="mb-1 ml-4 flex flex-col border-l border-white/10 pl-7">
-                                <a href="{% url 'kategoriler' %}#{{ kategori.slug }}" class="py-2 text-body-sm font-medium text-bronze-500 outline-none focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Tümünü gör" %}</a>
+                                <a href="{{ kategori.get_absolute_url }}" class="py-2 text-body-sm font-medium text-accent-500 outline-none focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Tümünü gör" %}</a>
                                 {% for alt in alt_kategoriler %}
-                                <a href="{% url 'kategoriler' %}#{{ kategori.slug }}" class="py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{{ alt.ad }}</a>
+                                <a href="{{ alt.get_absolute_url }}" class="py-2 text-body-sm text-aluminium-300 outline-none hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{{ alt.ad }}</a>
                                 {% endfor %}
                             </div>
                         </details>
                         {% else %}
-                        <a href="{% url 'kategoriler' %}#{{ kategori.slug }}" class="flex items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                        <a href="{{ kategori.get_absolute_url }}" class="flex items-center gap-3 py-2 text-body-sm text-aluminium-300 outline-none hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">
                             <img src="{{ kategori.gorsel.url }}" alt="" class="h-8 w-8 shrink-0 rounded object-cover">
                             {{ kategori.ad }}
                         </a>
@@ -371,9 +453,8 @@
                         {% endfor %}
                     </div>
                 </details>
-                <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Projeler" %}</a>
-                <a href="#" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Kurumsal" %}</a>
-                <a href="{% url 'iletisim' %}" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "İletişim" %}</a>
+                <a href="{% url 'kurumsal' %}" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Kurumsal" %}</a>
+                <a href="{% url 'iletisim' %}" class="block border-b border-white/10 py-3 text-body font-medium text-white outline-none hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "İletişim" %}</a>
 
                 <div class="flex flex-wrap gap-2 py-4">
                     {% get_available_languages as AVAILABLE_LANGUAGES %}
@@ -386,7 +467,7 @@
                         <input type="hidden" name="language" value="{{ lang.code }}">
                         <input type="hidden" name="next" value="{{ lang_next_url }}">
                         <button type="submit"
-                                class="flex items-center gap-2 rounded-full border px-3 py-1.5 text-body-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-bronze-500 {% if lang.code == LANGUAGE_CODE %}border-bronze-500 text-white{% else %}border-white/10 text-aluminium-300 hover:border-white/30{% endif %}">
+                                class="flex items-center gap-2 rounded-full border px-3 py-1.5 text-body-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-500 {% if lang.code == LANGUAGE_CODE %}border-accent-500 text-white{% else %}border-white/10 text-aluminium-300 hover:border-white/30{% endif %}">
                             <span aria-hidden="true">{{ lang.code|flag_for }}</span>
                             {{ lang.code|upper }}
                         </button>
@@ -396,7 +477,7 @@
                 </div>
             </div>
             <div class="border-t border-white/10 p-6">
-                <a href="{% url 'iletisim' %}" class="flex items-center justify-center gap-2 rounded bg-bronze-500 px-5 py-3 text-button font-medium text-white shadow-lg shadow-bronze-500/20 outline-none transition-colors hover:bg-bronze-600 focus-visible:ring-2 focus-visible:ring-bronze-500">
+                <a href="{% url 'iletisim' %}" class="flex items-center justify-center gap-2 rounded bg-accent-500 px-5 py-3 text-button font-medium text-on-accent shadow-lg shadow-accent-500/20 outline-none transition-colors hover:bg-accent-600 focus-visible:ring-2 focus-visible:ring-accent-500">
                     {% trans "Teklif Al" %}
                 </a>
             </div>
@@ -412,45 +493,65 @@
             <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
 
                 <div>
-                    <span class="font-display text-h5 font-semibold text-white">MARKA<span class="text-bronze-500">.</span></span>
+                    <a href="{% url 'index' %}" class="inline-block outline-none focus-visible:ring-2 focus-visible:ring-accent-500">{% include "partials/logo.html" %}</a>
                     <p class="mt-3 max-w-xs text-body-sm text-aluminium-400">
-                        {% block footer_tagline %}{% blocktrans %}Kaliteli ürünler ve güvenilir hizmet için doğru adres.{% endblocktrans %}{% endblock %}
+                        {% block footer_tagline %}{{ SITE.footer_aciklama|linebreaksbr }}{% endblock %}
                     </p>
                 </div>
 
                 <div>
                     <h3 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">{% trans "Hızlı Bağlantılar" %}</h3>
                     <ul class="mt-4 space-y-2">
-                        <li><a href="{% url 'index' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Anasayfa" %}</a></li>
-                        <li><a href="{% url 'kategoriler' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Kategoriler" %}</a></li>
-                        <li><a href="{% url 'iletisim' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "İletişim" %}</a></li>
+                        <li><a href="{% url 'index' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Anasayfa" %}</a></li>
+                        <li><a href="{% url 'kategoriler' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Kategoriler" %}</a></li>
+                        <li><a href="{% url 'iletisim' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "İletişim" %}</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h3 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">{% trans "Kurumsal" %}</h3>
                     <ul class="mt-4 space-y-2">
-                        <li><a href="#" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Hakkımızda" %}</a></li>
-                        <li><a href="#" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-bronze-500 focus-visible:ring-2 focus-visible:ring-bronze-500">{% trans "Projeler" %}</a></li>
+                        <li><a href="{% url 'kurumsal' %}" class="text-body-sm text-aluminium-300 outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{% trans "Hakkımızda" %}</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h3 class="text-h6 font-semibold uppercase tracking-wide text-aluminium-500">{% trans "İletişim" %}</h3>
                     <ul class="mt-4 space-y-3 text-body-sm text-aluminium-300">
-                        <li>info@ornek.com</li>
-                        <li>+90 (5xx) xxx xx xx</li>
+                        {% if SITE.telefon %}<li><a href="{{ SITE.telefon_linki }}" class="outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{{ SITE.telefon }}</a></li>{% endif %}
+                        {% if SITE.eposta %}<li><a href="mailto:{{ SITE.eposta }}" class="break-all outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">{{ SITE.eposta }}</a></li>{% endif %}
+                        {% if SITE.adres %}<li class="text-aluminium-400">{{ SITE.adres|linebreaksbr }}</li>{% endif %}
                     </ul>
+                    <div class="mt-5">{% include "partials/sosyal.html" %}</div>
                 </div>
 
             </div>
 
             <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-anthracite-800 pt-6 sm:flex-row">
                 {% now "Y" as current_year %}
-                <p class="text-caption text-aluminium-500">&copy; {{ current_year }} MARKA. {% trans "Tüm hakları saklıdır." %}</p>
+                <p class="text-caption text-aluminium-500">&copy; {{ current_year }} {{ SITE.site_adi }}. {% trans "Tüm hakları saklıdır." %}</p>
             </div>
         </div>
     </footer>
+
+    <script>
+        // Tema düğmesi: seçimi hatırla. Kullanıcı hiç seçmediyse cihaz ayarı
+        // (açık/koyu) değiştikçe site de onu takip eder.
+        (function () {
+            var kok = document.documentElement;
+            document.addEventListener("click", function (e) {
+                if (!e.target.closest("[data-tema-degistir]")) return;
+                var koyu = !kok.classList.contains("dark");
+                kok.classList.toggle("dark", koyu);
+                try { localStorage.setItem("tema", koyu ? "dark" : "light"); } catch (err) {}
+            });
+            window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+                var kayitli = null;
+                try { kayitli = localStorage.getItem("tema"); } catch (err) {}
+                if (!kayitli) kok.classList.toggle("dark", e.matches);
+            });
+        })();
+    </script>
 
     {% block extra_js %}{% endblock %}
 </body>

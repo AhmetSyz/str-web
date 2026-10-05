@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "cloudinary",
     # Local
     "catalog",
+    "icerik",
 ]
 
 TAILWIND_APP_NAME = "theme"
@@ -95,6 +96,7 @@ TEMPLATES = [
                 "django.template.context_processors.i18n",
                 "catalog.context_processors.navbar_markalar",
                 "catalog.context_processors.navbar_kategoriler",
+                "icerik.context_processors.site_ayarlari",
             ],
         },
     },
