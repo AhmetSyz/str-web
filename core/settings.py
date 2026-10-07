@@ -155,6 +155,7 @@ LANGUAGES = [
     ("fr", "Français"),
     ("es", "Español"),
     ("ar", "العربية"),
+    ("ru", "Русский"),
 ]
 
 LOCALE_PATHS = [BASE_DIR / "locale"]
@@ -164,7 +165,7 @@ LOCALE_PATHS = [BASE_DIR / "locale"]
 # yukarıdaki LANGUAGES/gettext sisteminden ayrı bir mekanizma: bu, model
 # alanlarını dile göre ayrı kolonlara böler (ör. ad_tr, ad_en, ...).
 MODELTRANSLATION_DEFAULT_LANGUAGE = "tr"
-MODELTRANSLATION_LANGUAGES = ("tr", "en", "fr", "es", "ar")
+MODELTRANSLATION_LANGUAGES = ("tr", "en", "fr", "es", "ar", "ru")
 
 TIME_ZONE = "Europe/Istanbul"
 

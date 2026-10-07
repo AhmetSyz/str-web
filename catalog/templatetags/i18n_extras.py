@@ -24,6 +24,7 @@ _FLAGS = {
     "fr": "🇫🇷",
     "es": "🇪🇸",
     "ar": _PAN_ARAB_FLAG_SVG,
+    "ru": "🇷🇺",
 }
 
 

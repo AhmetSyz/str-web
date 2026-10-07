@@ -89,7 +89,7 @@
                         },
                     },
                     fontFamily: {
-                        display: ['"Space Grotesk"', 'sans-serif'],
+                        display: ['"Space Grotesk"', '"Inter"', 'sans-serif'],
                         sans:    ['"Inter"', 'sans-serif'],
                     },
                     fontSize: {
@@ -157,13 +157,13 @@
 <body class="flex min-h-screen flex-col bg-anthracite-950 font-sans text-aluminium-100 antialiased has-[#mobile-menu-toggle:checked]:overflow-hidden">
 
     <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-anthracite-950/95 shadow-md backdrop-blur-glass">
-        <nav aria-label="Primary" class="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-6 px-6 lg:h-20 lg:px-10">
+        <nav aria-label="Primary" class="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-6 px-6 lg:h-20 lg:gap-4 lg:px-8 xl:gap-6 xl:px-10">
 
             <a href="{% url 'index' %}" class="shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-accent-500">
                 {% include "partials/logo.html" %}
             </a>
 
-            <ul class="hidden items-center gap-6 xl:gap-8 lg:flex">
+            <ul class="hidden items-center gap-4 whitespace-nowrap xl:gap-8 lg:flex">
                 <li><a href="{% url 'index' %}" class="text-body-sm font-medium outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500 {% if request.resolver_match.url_name == 'index' %}text-accent-500 dark:text-accent-400{% else %}text-aluminium-100{% endif %}">{% trans "Anasayfa" %}</a></li>
                 <li class="group relative">
                     <button type="button" class="flex items-center gap-1 text-body-sm font-medium text-aluminium-100 outline-none transition-colors hover:text-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500">
@@ -311,9 +311,9 @@
             </ul>
 
             <div class="hidden lg:flex">
-                <a href="{% url 'iletisim' %}" class="inline-flex items-center gap-2 rounded bg-accent-500 px-5 py-2.5 text-button font-medium text-on-accent shadow-lg shadow-accent-500/20 outline-none transition-all duration-300 hover:bg-accent-600 hover:shadow-accent-500/35 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-accent-500">
+                <a href="{% url 'iletisim' %}" class="inline-flex items-center gap-2 whitespace-nowrap rounded bg-accent-500 px-4 py-2.5 xl:px-5 text-button font-medium text-on-accent shadow-lg shadow-accent-500/20 outline-none transition-all duration-300 hover:bg-accent-600 hover:shadow-accent-500/35 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-accent-500">
                     {% trans "Teklif Al" %}
-                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <svg class="hidden h-4 w-4 xl:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                 </a>

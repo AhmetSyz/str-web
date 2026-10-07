@@ -1,0 +1,379 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Language: ru\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Ad Soyad"
+msgstr "Имя и фамилия"
+
+msgid "Adres"
+msgstr "Адрес"
+
+msgid "Anasayfa"
+msgstr "Главная"
+
+msgid "Bize Ulaşın"
+msgstr "Свяжитесь с нами"
+
+msgid "Çalışma Saatleri"
+msgstr "Часы работы"
+
+msgid "E-posta"
+msgstr "Эл. почта"
+
+msgid "Geniş ürün yelpazemiz ve uzman ekibimizle yanınızdayız."
+msgstr "Мы рядом с вами благодаря широкому ассортименту и команде экспертов."
+
+msgid "Gönder"
+msgstr "Отправить"
+
+msgid "Hakkımızda"
+msgstr "О нас"
+
+msgid "Hızlı Bağlantılar"
+msgstr "Быстрые ссылки"
+
+msgid "İletişim"
+msgstr "Контакты"
+
+msgid "Kalite ve Güven"
+msgstr "Качество и надёжность"
+
+msgid "Kategori 1"
+msgstr "Категория 1"
+
+msgid "Kategori 2"
+msgstr "Категория 2"
+
+msgid "Kategori 3"
+msgstr "Категория 3"
+
+msgid "Kısa ürün açıklaması"
+msgstr "Краткое описание товара"
+
+msgid "Konu"
+msgstr "Тема"
+
+msgid "Kurumsal"
+msgstr "О компании"
+
+msgid "Menüyü aç"
+msgstr "Открыть меню"
+
+msgid "Menüyü kapat"
+msgstr "Закрыть меню"
+
+msgid "Mesajınız"
+msgstr "Ваше сообщение"
+
+msgid "Öne Çıkan Ürünler"
+msgstr "Рекомендуемые товары"
+
+msgid "Pazartesi – Cumartesi, 09:00 – 18:00"
+msgstr "Понедельник – суббота, 09:00 – 18:00"
+
+msgid "Projeler"
+msgstr "Проекты"
+
+msgid "Teklif Al"
+msgstr "Запросить цену"
+
+msgid "Telefon"
+msgstr "Телефон"
+
+msgid "Tüm hakları saklıdır."
+msgstr "Все права защищены."
+
+msgid "Tümünü Gör"
+msgstr "Смотреть все"
+
+msgid "Ürün Adı"
+msgstr "Название товара"
+
+msgid "Ürünler"
+msgstr "Товары"
+
+msgid "Ürünleri İncele"
+msgstr "Смотреть товары"
+
+msgid "Konum haritası"
+msgstr "Карта проезда"
+
+msgid "Ürün 1"
+msgstr "Товар 1"
+
+msgid "Ürün 2"
+msgstr "Товар 2"
+
+msgid "Ürün 3"
+msgstr "Товар 3"
+
+msgid "Ürün 4"
+msgstr "Товар 4"
+
+msgid ""
+"İhtiyacınız Olan Her Şey, <span class=\"text-bronze-500\">Tek Adreste</span>"
+msgstr "Всё, что вам нужно, <span class=\"text-bronze-500\">в одном месте</span>"
+
+msgid ""
+"Sorularınız, talepleriniz ve iş birliği önerileriniz için formu doldurun, en"
+" kısa sürede size dönüş yapalım."
+msgstr ""
+"Заполните форму, чтобы задать вопрос, оставить заявку или предложить "
+"сотрудничество, и мы свяжемся с вами в ближайшее время."
+
+msgid "Örnek Mahallesi, Sanayi Caddesi No: 1<br>İstanbul, Türkiye"
+msgstr "Örnek Mahallesi, Sanayi Caddesi, д. 1<br>Стамбул, Турция"
+
+msgid "MARKA — kaliteli ürünler ve güvenilir hizmet."
+msgstr "MARKA — качественная продукция и надёжный сервис."
+
+msgid "Kaliteli ürünler ve güvenilir hizmet için doğru adres."
+msgstr "Правильный адрес для качественной продукции и надёжного сервиса."
+
+msgid "Markalar"
+msgstr "Марки"
+
+msgid "Kategoriler"
+msgstr "Категории"
+
+msgid "Henüz kategori eklenmedi."
+msgstr "Категории пока не добавлены."
+
+msgid "Henüz marka eklenmedi."
+msgstr "Марки пока не добавлены."
+
+msgid "Aracınız için doğru parçayı bulmak üzere bir kategori seçin."
+msgstr ""
+"Выберите категорию, чтобы найти подходящую деталь для вашего автомобиля."
+
+msgid "Aracınızın markasını seçerek uyumlu parçaları keşfedin."
+msgstr "Выберите марку автомобиля, чтобы найти совместимые детали."
+
+msgid "Tüm Modeller"
+msgstr "Все модели"
+
+msgid "Bu modele uyumlu ürün bulunamadı."
+msgstr "Товары, совместимые с этой моделью, не найдены."
+
+msgid "Bu markaya uyumlu ürün bulunamadı."
+msgstr "Товары, совместимые с этой маркой, не найдены."
+
+msgid "%(marka_adi)s için uyumlu tüm yedek parçalar."
+msgstr "Все совместимые запчасти для %(marka_adi)s."
+
+#: templates/base.html
+msgid "Tümünü gör"
+msgstr "Смотреть все"
+
+msgid "Sayfa yolu"
+msgstr "Навигационная цепочка"
+
+msgid "Parça Markası"
+msgstr "Производитель детали"
+
+msgid "Parça Numarası"
+msgstr "Артикул"
+
+msgid "Araç Markası / Modeli"
+msgstr "Марка / модель автомобиля"
+
+msgid "Uyumluluk Yılları"
+msgstr "Годы совместимости"
+
+msgid "Kategori"
+msgstr "Категория"
+
+msgid "Genel Özellikler"
+msgstr "Характеристики"
+
+msgid "Uyumlu Araçlar"
+msgstr "Совместимые автомобили"
+
+msgid "Marka"
+msgstr "Марка"
+
+msgid "Model"
+msgstr "Модель"
+
+msgid "Versiyon"
+msgstr "Модификация"
+
+msgid "Motor Hacmi"
+msgstr "Объём двигателя"
+
+msgid "Kasa Tipi"
+msgstr "Тип кузова"
+
+msgid "Yıl Aralığı"
+msgstr "Годы выпуска"
+
+msgid "Bu ürün için henüz uyumlu araç bilgisi girilmedi."
+msgstr ""
+"Информация о совместимых автомобилях для этого товара пока не добавлена."
+
+msgid "Sedan"
+msgstr "Седан"
+
+msgid "Hatchback"
+msgstr "Хэтчбек"
+
+msgid "Station Wagon"
+msgstr "Универсал"
+
+msgid "SUV"
+msgstr "Внедорожник"
+
+msgid "Coupe"
+msgstr "Купе"
+
+msgid "Cabrio"
+msgstr "Кабриолет"
+
+msgid "Pickup"
+msgstr "Пикап"
+
+msgid "Panelvan"
+msgstr "Фургон"
+
+msgid "Minibüs"
+msgstr "Микроавтобус"
+
+msgid "Kamyonet"
+msgstr "Лёгкий грузовик"
+
+msgid "Tüm markalar"
+msgstr "Все марки"
+
+msgid "Önce marka seçin"
+msgstr "Сначала выберите марку"
+
+msgid "Tüm modeller"
+msgstr "Все модели"
+
+msgid "Tüm kategoriler"
+msgstr "Все категории"
+
+#, python-format
+msgid "%(ad)s (tümü)"
+msgstr "%(ad)s (все)"
+
+msgid "Ürün"
+msgstr "Товар"
+
+msgid "Tüm ürünler"
+msgstr "Все товары"
+
+msgid "Ara"
+msgstr "Найти"
+
+msgid "Aracınıza uygun parçayı bulun"
+msgstr "Найдите деталь для вашего автомобиля"
+
+msgid "Parça Ara"
+msgstr "Поиск запчастей"
+
+msgid ""
+"Aracınızın markasını, modelini ve aradığınız parçanın kategorisini seçin."
+msgstr "Выберите марку и модель автомобиля, а также категорию нужной детали."
+
+#, python-format
+msgid "Bulunan ürün: %(sayi)s"
+msgstr "Найдено товаров: %(sayi)s"
+
+msgid ""
+"Seçimlerinize uygun ürün bulunamadı. Filtrelerden birini kaldırarak tekrar "
+"deneyin."
+msgstr ""
+"По вашему запросу ничего не найдено. Попробуйте убрать один из фильтров."
+
+msgid "Sonuç bulunamadı"
+msgstr "Ничего не найдено"
+
+msgid "Tüm kategorilere göz atın"
+msgstr "Смотреть все категории"
+
+msgid "Aradığınızı bulamadınız mı?"
+msgstr "Не нашли нужное?"
+
+msgid "Bize ulaşın"
+msgstr "Свяжитесь с нами"
+
+msgid "Filtreleri temizle"
+msgstr "Сбросить фильтры"
+
+msgid "Temayı değiştir"
+msgstr "Сменить тему"
+
+msgid "Parça kodunu biliyor musunuz?"
+msgstr "Знаете артикул?"
+
+msgid "Parça kodu veya ürün adı, ör. BP-123"
+msgstr "Артикул или название, напр. BP-123"
+
+msgid "Kodla Ara"
+msgstr "Найти по артикулу"
+
+#, python-format
+msgid "“%(kod)s” için bulunan ürün: %(sayi)s"
+msgstr "Найдено товаров по «%(kod)s»: %(sayi)s"
+
+#, python-format
+msgid "“%(kod)s” koduyla eşleşen ürün bulunamadı."
+msgstr "Товаров с артикулом «%(kod)s» не найдено."
+
+msgid "Kodu kontrol edip tekrar deneyin ya da"
+msgstr "Проверьте артикул и попробуйте снова или"
+
+msgid "bize ulaşın"
+msgstr "свяжитесь с нами"
+
+msgid "Parça kodu ile ara"
+msgstr "Поиск по артикулу"
+
+msgid "ör. BP-123"
+msgstr "напр. BP-123"
+
+msgid "WhatsApp'tan yazın"
+msgstr "Написать в WhatsApp"
+
+msgid "isteğe bağlı"
+msgstr "необязательно"
+
+msgid "Mesajınız alındı. En kısa sürede size dönüş yapacağız."
+msgstr "Ваше сообщение получено. Мы свяжемся с вами в ближайшее время."
+
+msgid "Bu bölümün içeriği yakında eklenecek."
+msgstr "Содержимое этого раздела скоро появится."
+
+msgid "Sizin için doğru parçayı birlikte bulalım."
+msgstr "Давайте вместе подберём нужную деталь."
+
+msgid "Sorularınız için ekibimize ulaşın."
+msgstr "С вопросами обращайтесь к нашей команде."
+
+#, python-format
+msgid "%(no)s. fotoğraf"
+msgstr "Фото %(no)s"
+
+msgid "Aracınızı seçin ya da parça kodunu yazın."
+msgstr "Выберите автомобиль или введите артикул."
+
+msgid "veya"
+msgstr "или"
+
+msgid "Tümü"
+msgstr "Все"
+
+msgid "Ürünleri gör"
+msgstr "Смотреть товары"
+
+msgid "Bu kategoride henüz ürün bulunmuyor."
+msgstr "В этой категории пока нет товаров."
+
+msgid "Aradığınız parça için"
+msgstr "Чтобы найти нужную деталь,"
