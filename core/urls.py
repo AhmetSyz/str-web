@@ -22,30 +22,30 @@ from icerik.views import iletisim_view, kurumsal_view
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
-    # Turkish is the default and unprefixed ("/", "/iletisim/") — redirect anyone
-    # who lands on "/tr/..." directly (bookmark, typed URL) to the real path
+    # English is the default and unprefixed ("/", "/iletisim/") — redirect anyone
+    # who lands on "/en/..." directly (bookmark, old link) to the real path
     # instead of a 404.
-    path("tr/", RedirectView.as_view(url="/", permanent=False)),
-    path("tr/iletisim/", RedirectView.as_view(url="/iletisim/", permanent=False)),
-    path("tr/kategoriler/", RedirectView.as_view(url="/kategoriler/", permanent=False)),
+    path("en/", RedirectView.as_view(url="/", permanent=False)),
+    path("en/iletisim/", RedirectView.as_view(url="/iletisim/", permanent=False)),
+    path("en/kategoriler/", RedirectView.as_view(url="/kategoriler/", permanent=False)),
     path(
-        "tr/kategoriler/<slug:kategori_slug>/",
+        "en/kategoriler/<slug:kategori_slug>/",
         RedirectView.as_view(pattern_name="kategori_detay", permanent=False),
     ),
-    path("tr/kurumsal/", RedirectView.as_view(url="/kurumsal/", permanent=False)),
+    path("en/kurumsal/", RedirectView.as_view(url="/kurumsal/", permanent=False)),
     path(
-        "tr/markalar/<slug:marka_slug>/",
+        "en/markalar/<slug:marka_slug>/",
         RedirectView.as_view(pattern_name="marka_urunleri", permanent=False),
     ),
-    path("tr/arama/", RedirectView.as_view(pattern_name="arama", query_string=True, permanent=False)),
+    path("en/arama/", RedirectView.as_view(pattern_name="arama", query_string=True, permanent=False)),
     path(
-        "tr/urun/<slug:urun_slug>/",
+        "en/urun/<slug:urun_slug>/",
         RedirectView.as_view(pattern_name="urun_detay", permanent=False),
     ),
 ]
 
-# Default language (tr) keeps unprefixed URLs ("/", "/iletisim/"); the others
-# get a language prefix ("/en/", "/fr/", "/es/", "/ar/") set by LocaleMiddleware.
+# Default language (en) keeps unprefixed URLs ("/", "/iletisim/"); the others
+# get a language prefix ("/tr/", "/fr/", "/es/", "/ar/", "/ru/") set by LocaleMiddleware.
 urlpatterns += i18n_patterns(
     path("", index_view, name="index"),
     path("iletisim/", iletisim_view, name="iletisim"),

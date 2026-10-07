@@ -17,7 +17,8 @@
         (function () {
             var kayitli = null;
             try { kayitli = localStorage.getItem("tema"); } catch (e) {}
-            var koyu = kayitli ? kayitli === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+            // Varsayılan aydınlık tema; koyu tema sadece ziyaretçi seçtiyse.
+            var koyu = kayitli === "dark";
             document.documentElement.classList.toggle("dark", koyu);
         })();
     </script>
@@ -544,11 +545,6 @@
                 var koyu = !kok.classList.contains("dark");
                 kok.classList.toggle("dark", koyu);
                 try { localStorage.setItem("tema", koyu ? "dark" : "light"); } catch (err) {}
-            });
-            window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
-                var kayitli = null;
-                try { kayitli = localStorage.getItem("tema"); } catch (err) {}
-                if (!kayitli) kok.classList.toggle("dark", e.matches);
             });
         })();
     </script>

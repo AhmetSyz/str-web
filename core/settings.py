@@ -147,11 +147,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "tr"
+LANGUAGE_CODE = "en"
 
 LANGUAGES = [
-    ("tr", "Türkçe"),
     ("en", "English"),
+    ("tr", "Türkçe"),
     ("fr", "Français"),
     ("es", "Español"),
     ("ar", "العربية"),
@@ -166,6 +166,9 @@ LOCALE_PATHS = [BASE_DIR / "locale"]
 # alanlarını dile göre ayrı kolonlara böler (ör. ad_tr, ad_en, ...).
 MODELTRANSLATION_DEFAULT_LANGUAGE = "tr"
 MODELTRANSLATION_LANGUAGES = ("tr", "en", "fr", "es", "ar", "ru")
+# Admin'de içerik Türkçe giriliyor (zorunlu alanlar _tr), ama sitenin ana dili
+# İngilizce: bir dilde çeviri boşsa önce İngilizcesi, o da yoksa Türkçesi gösterilir.
+MODELTRANSLATION_FALLBACK_LANGUAGES = ("en", "tr")
 
 TIME_ZONE = "Europe/Istanbul"
 
